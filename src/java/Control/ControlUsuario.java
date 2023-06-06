@@ -5,6 +5,8 @@ import Modelo.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 public class ControlUsuario {
     
     public static boolean RegistrarEstudiante(Usuario usu){
@@ -215,6 +217,38 @@ public class ControlUsuario {
         return resultado;
     }
     
-    
+    public static List<Usuario> EncontrarEstudiantes(){
+        List<Usuario> estudiantes = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try{
+            con = ConexionBD.getConnection();
+            String sql = "Select MUsuario.nom_usu, MUsuario.id_usu, MUsuario.correo_usu, MUsuario.boleta_usu where rol_usu = 3";
+            ps= con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                Usuario usu = new Usuario();
+                usu.setEmail(rs.getNString("MUsuario.correo_usu"));
+                usu.setNombre(rs.getNString("MUsuario.nom_usu"));
+                usu.setBoleta(rs.getLong("MUsuario.boleta_usu"));
+                usu.setId_cifrado(Cifrado.encrypt(String.valueOf(rs.getInt("MUsuario.id_usu"))));
+                estudiantes.add(usu);
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }finally{
+            try{
+                con.close();
+                ps.close();
+                rs.close();
+            }
+            catch(Exception error){
+                System.out.println("Error a cerrar la conexion");
+                System.out.println(error);
+            }
+        }
+        return estudiantes;
+    }
     
 }
