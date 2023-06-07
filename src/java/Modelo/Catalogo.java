@@ -2,7 +2,7 @@
 package Modelo;
 
 public class Catalogo {
-    int id;
+    int id, unidad;
     String des;
 
     public Catalogo() {
@@ -23,6 +23,15 @@ public class Catalogo {
     public void setDes(String des) {
         this.des = des;
     }
+
+    public int getUnidad() {
+        return unidad;
+    }
+
+    public void setUnidad(int unidad) {
+        this.unidad = unidad;
+    }
+    
     
     
 }

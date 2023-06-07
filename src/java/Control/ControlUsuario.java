@@ -167,39 +167,41 @@ public class ControlUsuario {
             ps.setInt(1, Integer.valueOf(Cifrado.decrypt(mod.getId_cifrado())));
             rs = ps.executeQuery();
             if(!rs.next()){//no existe el id a modificar
-               return false;
-            }
-            if(rs.getLong("MUsuario.boleta_usu")==mod.getBoleta()){//no se va a modificar la boleta
-                sql = "update MUsuario set nom_usu = ? , correo_usu = ? where id_usu = ?";
-                ps = con.prepareStatement(sql);
-                ps.setString(1, mod.getNombre());
-                ps.setString(2, mod.getEmail());
-                ps.setInt(3, Integer.valueOf(Cifrado.decrypt(mod.getId_cifrado())) );
-                int estado = ps.executeUpdate();
-                if(estado>0){
-                    return true;
-                }
-            }else{//se va a modificar la boleta
-                //tenemos que ver la boleta no exista ya
-                sql = "select * from MUSuario where boleta_usu = ?";
-                ps = con.prepareStatement(sql);
-                ps.setLong(1, mod.getBoleta());
-                rs = ps.executeQuery();
-                if(!rs.next()){
-                    sql = "update MUsuario set nom_usu = ? , correo_usu = ? , boleta_usu = ? where id_usu = ?";
+               resultado = false;
+            }else{
+                if(rs.getLong("MUsuario.boleta_usu")==mod.getBoleta()){//no se va a modificar la boleta
+                    sql = "update MUsuario set nom_usu = ? , correo_usu = ? where id_usu = ?";
                     ps = con.prepareStatement(sql);
                     ps.setString(1, mod.getNombre());
                     ps.setString(2, mod.getEmail());
-                    ps.setLong(3, mod.getBoleta());
-                    ps.setInt(4, Integer.valueOf(Cifrado.decrypt(mod.getId_cifrado())) );
+                    ps.setInt(3, Integer.valueOf(Cifrado.decrypt(mod.getId_cifrado())) );
                     int estado = ps.executeUpdate();
                     if(estado>0){
-                        return true;
+                        resultado = true;
                     }
-                }else{
-                    return false;
+                }else{//se va a modificar la boleta
+                    //tenemos que ver la boleta no exista ya
+                    sql = "select * from MUSuario where boleta_usu = ?";
+                    ps = con.prepareStatement(sql);
+                    ps.setLong(1, mod.getBoleta());
+                    rs = ps.executeQuery();
+                    if(!rs.next()){
+                        sql = "update MUsuario set nom_usu = ? , correo_usu = ? , boleta_usu = ? where id_usu = ?";
+                        ps = con.prepareStatement(sql);
+                        ps.setString(1, mod.getNombre());
+                        ps.setString(2, mod.getEmail());
+                        ps.setLong(3, mod.getBoleta());
+                        ps.setInt(4, Integer.valueOf(Cifrado.decrypt(mod.getId_cifrado())) );
+                        int estado = ps.executeUpdate();
+                        if(estado>0){
+                            resultado = true;
+                        }
+                    }else{
+                        resultado = false;
+                    }
                 }
             }
+            
         }catch(Exception e){
             System.out.println(e.getMessage());
             resultado = false;
@@ -250,5 +252,66 @@ public class ControlUsuario {
         }
         return estudiantes;
     }
+    
+    public static boolean EliminarEstudiante(int id){
+        boolean resultado=false;
+        Connection con = null;
+        PreparedStatement ps = null;
+        try{
+            con = ConexionBD.getConnection();
+            String sql = "DELETE FROM usuarios WHERE id_usu = ? and rol_usu = 3;";
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            int estado = ps.executeUpdate();
+            if(estado>0){
+                resultado = true;
+            }
+        
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            resultado = false;
+        }finally{
+            try{
+                con.close();
+                ps.close();
+            }
+            catch(Exception error){
+                System.out.println("Error a cerrar la conexion");
+                System.out.println(error);
+            }
+        }
+        return resultado;
+    }
+    
+    public static boolean EliminarGrupo(){
+        boolean resultado=false;
+        Connection con = null;
+        PreparedStatement ps = null;
+        try{
+            con = ConexionBD.getConnection();
+            String sql = "DELETE FROM usuarios WHERE rol_usu = 3;";
+            ps = con.prepareStatement(sql);
+            int estado = ps.executeUpdate();
+            if(estado>0){
+                resultado = true;
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            resultado = false;
+        }finally{
+            try{
+                con.close();
+                ps.close();
+            }
+            catch(Exception error){
+                System.out.println("Error a cerrar la conexion");
+                System.out.println(error);
+            }
+        }
+        return resultado;
+    }
+    
+    
+    
     
 }

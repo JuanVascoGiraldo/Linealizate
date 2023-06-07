@@ -1,9 +1,12 @@
 
 package Modelo;
 
+import java.util.List;
+
 public class Material {
     int id, tipo, usu, estado;
     String link, bibliografia, titulo, id_cifrado;
+    List<Catalogo> temas;
 
     public Material() {
         
@@ -72,6 +75,15 @@ public class Material {
     public void setId_cifrado(String id_cifrado) {
         this.id_cifrado = id_cifrado;
     }
+
+    public List<Catalogo> getTemas() {
+        return temas;
+    }
+
+    public void setTemas(List<Catalogo> temas) {
+        this.temas = temas;
+    }
+    
     
     
     
