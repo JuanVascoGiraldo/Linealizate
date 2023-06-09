@@ -21,7 +21,7 @@ public class JWT {
                     .setSubject(Cifrado.encrypt(String.valueOf(subject)))
                     .setIssuedAt(now)
                     .setExpiration(expiration)
-                    .signWith(SignatureAlgorithm.HS384, SKJWT)
+                    .signWith(SignatureAlgorithm.HS256, SKJWT)
                     .compact();
         }catch(Exception e){
             System.out.println(e.getMessage());

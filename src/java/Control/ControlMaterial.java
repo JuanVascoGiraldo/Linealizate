@@ -49,7 +49,6 @@ public class ControlMaterial {
         return temas;
     }
     
-    
     public static List<Material> ObtenerMaterialEstudiante(){ 
         //se guardara esta lista en la sesion cada que se carga la pagina material de estudiante
         //cuando se aplica un filtro, se va acceder a la lista de la sesion para filtrar
@@ -121,6 +120,79 @@ public class ControlMaterial {
         return temas;
     }
     
+    public static boolean AgregarTemaMat(Connection con, List<Catalogo> temas, int id_mat ){
+        boolean resultado = false;
+        if(temas.isEmpty())return true;
+        PreparedStatement ps = null;
+        try{
+            String sql = "insert into ETemaMaterial (id_material, id_tema) values ("+id_mat+",?)";
+            for(int i=0; i<temas.size()-1; i++){
+                sql += " ,("+id_mat+",?)";
+            }
+            ps = con.prepareStatement(sql);
+            for(int i=1; i<=temas.size(); i++){
+                ps.setInt(i,temas.get(i-1).getId());
+            }
+            int estatus = ps.executeUpdate();
+            if(estatus>0){
+                resultado = true;
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            resultado = false;
+        }finally{
+            try{
+                ps.close();
+            }
+            catch(Exception error){
+                System.out.println("Error a cerrar la conexion");
+                System.out.println(error);
+            }
+        }
+        return resultado;
+    }
+    
+    public static boolean EliminarTemaMat(Connection con, List<Catalogo> temas, int id_mat ){
+        boolean resultado = false;
+        if(temas.isEmpty())return true;
+        PreparedStatement ps = null;
+        try{
+            String sql = "DELETE FROM ETemaMaterial where id_material = "+id_mat+" AND ";
+            if(temas.size() == 1){
+                sql += " id_tema= ?";
+                ps = con.prepareCall(sql);
+                ps.setInt(1, temas.get(0).getId());
+            }else{
+                sql+= "(id_tema= ? ";
+                for(int i=1; i< temas.size();i++){
+                    sql += "or id_tema= ? ";
+                }
+                sql+= ")";
+                ps = con.prepareCall(sql);
+                for(int i=1; i<=temas.size(); i++){
+                    ps.setInt(i,temas.get(i-1).getId());
+                }
+            }
+            
+            int estatus = ps.executeUpdate();
+            if(estatus>0){
+                resultado = true;
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            resultado = false;
+        }finally{
+            try{
+                ps.close();
+            }
+            catch(Exception error){
+                System.out.println("Error a cerrar la conexion");
+                System.out.println(error);
+            }
+        }
+        return resultado;
+    }
+    
     public static boolean AgregarMaterial(Material mat){
         boolean resultado = false;
         Connection con = null;
@@ -141,19 +213,7 @@ public class ControlMaterial {
                 rs = ps.getGeneratedKeys();
                 if(rs.next()){
                     int id = rs.getInt(1);
-                    sql = "insert into ETemaMaterial (id_material, id_tema) values (?,?)";
-                    for(Catalogo m: mat.getTemas()){
-                        ps = con.prepareCall(sql);
-                        ps.setInt(1, id);
-                        ps.setInt(2, m.getId());
-                        estado = ps.executeUpdate();
-                        if(estado==0){
-                            resultado = false;
-                            break;
-                        }else{
-                            resultado = true;
-                        }
-                    }
+                    resultado = AgregarTemaMat(con, mat.getTemas(), id );
                 }
             }
         }catch(Exception e){
@@ -255,9 +315,8 @@ public class ControlMaterial {
         return resultado;
     }
     
-    
     public static boolean ModificarMaterial(Material mat){
-         boolean resultado = false, result;
+        boolean resultado = false, result;
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -286,14 +345,20 @@ public class ControlMaterial {
                 }
                 
                 List<Catalogo> temas = ObtenerTemaMaterial( id, con);
-                
-                if(result && !temas.equals(mat.getTemas())){
-                    //ver que temas sigun y cuales son nuevas.
-                    //solucion facil elimniar todos y volver a añadirlos
-                    resultado = true;
-                }else{
+                List<Catalogo> temasnuevo = mat.getTemas();
+                List<Catalogo> eliminar = new ArrayList<>();
+                if(result && !temas.equals(temasnuevo)){
+                    //ver que temas siguen y cuales son nuevas.
+                    temas.forEach((ca) -> {
+                        if(temasnuevo.contains(ca)){
+                            temasnuevo.remove(ca);
+                        }else{
+                            eliminar.add(ca);
+                        }
+                    });
+                    resultado = AgregarTemaMat(con, temasnuevo, id) && EliminarTemaMat(con, eliminar, id);
+                }else if(!result){
                     resultado = false;
-                
                 }
             }
             
@@ -313,7 +378,6 @@ public class ControlMaterial {
         }
         return resultado;
     }
-    
     
     public static boolean ModificarTablaMat(Material mat, int id, Connection con){
         boolean resultado = false;
@@ -347,6 +411,77 @@ public class ControlMaterial {
             }
         }
         return resultado;
+    }
+    
+    public static boolean HacerReporte(Reporte rep){
+        boolean resultado = false;
+        Connection con = null;
+        PreparedStatement ps = null;
+        try{
+            con = ConexionBD.getConnection();
+            String sql = "insert into MReporte (fecha_reporte, text_reporte, usu_reporte, id_material, estado) values (? ,? ,? ,? ,?)";
+            ps = con.prepareStatement(sql);
+            ps.setString(1, rep.getFecha());
+            ps.setString(2, rep.getReporte());
+            ps.setString(3, rep.getNombre());
+            ps.setInt(4, rep.getMaterial());
+            ps.setInt(5, 1);
+            int estatus = ps.executeUpdate();
+            if(estatus>1){
+                resultado = true;
+            }
+            
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            resultado = false;
+        }finally{
+            try{
+                con.close();
+                ps.close();
+            }
+            catch(Exception error){
+                System.out.println("Error a cerrar la conexion");
+                System.out.println(error);
+            }
+        }
+        return resultado;
+    }
+    
+    public static List<Reporte> ConsultarReportes(String id_cifrado){
+        List<Reporte> reportes = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try{
+            con = ConexionBD.getConnection();
+            String sql = "select * from MReporte where id_material=?";
+            int id= Integer.valueOf(Cifrado.decrypt(id_cifrado));
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                Reporte nuevo = new Reporte();
+                nuevo.setFecha(rs.getString("fecha_reporte"));
+                nuevo.setNombre(rs.getString("usu_reporte"));
+                nuevo.setReporte(rs.getString("text_reporte"));
+                nuevo.setEstado(rs.getInt("estado"));
+                reportes.add(nuevo);
+            }
+            
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }finally{
+            try{
+                con.close();
+                ps.close();
+                rs.close();
+            }
+            catch(Exception error){
+                System.out.println("Error a cerrar la conexion");
+                System.out.println(error);
+            }
+        }
+        return reportes;
     }
     
 }
