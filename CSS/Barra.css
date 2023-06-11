@@ -28,6 +28,10 @@ nav {
 }
 
 .logoContainer a {
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+    align-items: center;
+    grid-gap: 10px;
     display: flex;
     justify-content: space-around;
     max-width: 50%;
@@ -37,6 +41,8 @@ nav {
 }
 
 .logo {
+    width: 100%;
+    min-height: max-content;
     width: 50%;
     min-width: 30%;
     height: auto;

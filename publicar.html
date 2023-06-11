@@ -37,18 +37,68 @@
       </a>
     </ul>
   </nav>
-  <form class="form" action="">
-    <input class="input" type="text" name="Title" id="title" placeholder="Titulo">
-    <div class="selectContainer">
-      <select class="select" name="Tipo" id="tipo">
-        <option value="video">Video</option>
-        <option value="info">Infografia</option>
-        <option value="ejemlpo">Ejemplo</option>
-        <option value="exam">Examenes</option>
-        <option value="listas">Listas</option>
-      </select>
+  <h3 class="header">Crear publicacion</h3>
+  <div class="formContainer">
+    <div class="content">
+      <form class="form" action="">
+        <input class="input" type="text" name="Title" id="title" placeholder="Titulo">
+        <br />
+        <div class="inputContainer">
+          <h5>Tipo de material: </h5>
+          <select class="select" name="Tipo" id="tipo">
+            <option value="video">Video</option>
+            <option value="info">Infografia</option>
+            <option value="ejemlpo">Ejemplo</option>
+            <option value="exam">Examenes</option>
+            <option value="listas">Listas</option>
+          </select>
+        </div>
+        <div class="inputContainer">
+          <h5>Unidad: </h5>
+          <select class="select" name="Unidad" id="unidad">
+            <option value="1">Unidad 1</option>
+            <option value="2">Unidad 2</option>
+            <option value="3">Unidad 3</option>
+            <option value="4">Unidad 4</option>
+            <option value="5">Unidad 5</option>
+            <option value="6">Unidad 6</option>
+            <option value="7">Unidad 7</option>
+            <option value="8">Unidad 8</option>
+            <option value="9">Unidad 9</option>
+            <option value="10">Unidad 10</option>
+          </select>
+        </div>
+        <div class="checkboxContainer">
+          <h5>Temas:</h5>
+          <div class="checkbox">
+            <div class="checkboxItem">
+              <input type="checkbox" name="tema" id="tema1" value="1">
+              <label for="tema1">Tema 1</label>
+            </div>
+            <div class="checkboxItem">
+              <input type="checkbox" name="tema" id="tema2" value="2">
+              <label for="tema1">Tema 2</label>
+            </div>
+            <div class="checkboxItem">
+              <input type="checkbox" name="tema" id="tema3" value="3">
+              <label for="tema1">Tema 3</label>
+            </div>
+            <div class="checkboxItem">
+              <input type="checkbox" name="tema" id="tema4" value="4">
+              <label for="tema1">Tema 4</label>
+            </div>
+          </div>
+        </div>
+        <br>
+        <input class="input" type="url" name="link" id="link" placeholder="Link">
+        <input class="input" type="text" placeholder="Bibliografia">
+        <br>
+        <div class="buttonContainer">
+          <button class="button" type="submit">Publicar</button>
+        </div>
+      </form>
     </div>
-  </form>
+  </div>
 </body>
 
 </html>
