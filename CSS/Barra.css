@@ -21,19 +21,16 @@ nav {
 .logoContainer {
     padding: 20px;
     max-width: 30%;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
     text-align: center;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .logoContainer a {
-    display: grid;
-    grid-template-columns: 5fr 1fr;
-    align-items: center;
-    grid-gap: 10px;
     display: flex;
-    justify-content: space-around;
+    justify-content: justify;
     max-width: 50%;
     color: #fff;
     text-decoration: none;
@@ -41,7 +38,7 @@ nav {
 }
 
 .logo {
-    width: 100%;
+    max-height: fit-content;
     min-height: max-content;
     width: 50%;
     min-width: 30%;
