@@ -7,78 +7,42 @@ body {
   padding: 0;
 }
 
-/* NavBar */
-.navbar {
-  text-transform: uppercase;
-  color: #FFF;
-  background-color: #146C94;
-  border-bottom: 1px solid #E7E7E7;
-  top: 0;
-  width: 100%;
+.header {
+  padding-top: 5rem;
+  color: #000;
+  font-weight: bolder;
+  text-align: center;
+}
+
+.formContainer {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  position: fixed;
-  z-index: 1;
-
-  /* resisable navbar */
-  -webkit-transition: all 0.4s ease-in-out;
-  transition: all 0.4s ease-in-out;
+  height: 100%;
 }
-
-/* logoContainer */
-.logoContainer {
-  width: 20%;
-  padding: 10px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-
-/* logo */
-.logo {
-  width: 25%;
-  height: auto;
-}
-
-/* title */
-.title {
-  font-size: 1.5em;
-  font-weight: bold;
-}
-
-.navMenu {
-  width: 60%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.navMenu a {
-  color: #f6f4e6;
-  text-decoration: none;
-  font-size: 1.2em;
-  font-weight: 500;
-  display: inline-block;
-  width: 80px;
-  -webkit-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
-}
-
-.navMenu a:hover {
-  color: #fddb3a;
+.content{
+  width: 80%;
+  margin: 3rem auto;
+  text-align: middle;
 }
 
 .form {
-  padding: 100px;
-  width: 100%;
+  display: grid;
+  text-align: middle;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inputContainer {
   display: flex;
-  justify-content: space-around;
+  justify-content: justify;
   align-items: center;
 }
 
 .form .input {
-  width: 50%;
+  width: 100%;
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ccc;
@@ -91,10 +55,44 @@ body {
 }
 
 .form .select {
-  width: 50%;
+  width: 79%;
+  margin-left: 10px;
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+}
+
+.checkboxContainer {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 5px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.checkbox {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: 10px;
+  justify-content: space-around;
+}
+
+.button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: #19A7CE;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #146C94;
+  transition: 100ms;
 }

@@ -28,8 +28,10 @@ nav {
 }
 
 .logoContainer a {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+    align-items: center;
+    grid-gap: 10px;
     max-width: 50%;
     color: #fff;
     text-decoration: none;
@@ -37,8 +39,8 @@ nav {
 }
 
 .logo {
-    width: 30%;
-    min-width: 30%;
+    width: 100%;
+    min-height: max-content;
 }
 
 nav ul {
