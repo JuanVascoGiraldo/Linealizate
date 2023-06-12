@@ -1,0 +1,124 @@
+body {
+  background-color: #F6F1F1;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.6em;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  padding-top: 5rem;
+  color: #000;
+  font-weight: bolder;
+  text-align: center;
+}
+
+.header2 {
+  padding-top: 2rem;
+  color: #000;
+  font-weight: bolder;
+  text-align: center;
+}
+
+.formContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.content{
+  width: 80%;
+  margin: 3rem auto;
+  text-align: middle;
+}
+
+.content2{
+  width: 80%;
+  margin: 2rem auto;
+  text-align: middle;
+}
+
+.form {
+  display: grid;
+  text-align: middle;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inputContainer {
+  display: flex;
+  justify-content: justify;
+  align-items: center;
+}
+
+.form .input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.form .input:focus {
+  border: 3px solid #E7E7E7;
+}
+
+.form .select {
+  width: 79%;
+  margin-left: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.form .select2 {
+  width: 50%;
+  margin-left: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.checkboxContainer {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 5px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.checkbox {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: 10px;
+  justify-content: space-around;
+}
+
+.button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: #19A7CE;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #146C94;
+  transition: 100ms;
+}
+
+
+

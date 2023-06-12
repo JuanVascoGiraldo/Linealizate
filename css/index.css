@@ -1,0 +1,130 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'poppins', sans-serif;
+}
+
+.logoESCOM {
+    width: 50x;
+    height: 50px;
+    float: left;
+}
+
+.logoIPN {
+    width: 50x;
+    height: 50px;
+    float: right;
+}
+
+section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    background: #2B8CE2;
+}
+
+.admi{
+    float: center;
+    text-decoration: none;
+    color: black;
+}
+
+.alumno{
+    float: right;
+    text-decoration: none;
+    color: black;
+}
+
+.form-box {
+    position: relative;
+    width: 400px;
+    height: 450px;
+    background: #B9DFEE;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    font-size: 2em;
+    color: #000000;
+    text-align: center;
+}
+
+h2 {
+    font-size: 2em;
+    color: #000000;
+    text-align: center;
+}
+
+.inputbox {
+    position: relative;
+    margin: 20px 0;
+    width: 300px;
+    border-bottom: 2px solid #000000;
+}
+
+.inputbox label {
+    position: absolute;
+    top: 30%;
+    left: 5px;
+    transform: translateY(-70%);
+    color: #000000;
+    font-size: 1em;
+    pointer-events: none;
+    transition: .6s;
+}
+
+input:focus ~ label,
+input:focus ~ :valid {
+    top: -5px;
+}
+
+.inputbox input { 
+    width: 100%;
+    height: 30px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    padding: 15px 0 1px;
+    color: #000000;
+}
+
+.inputbox ion-icon {
+    position: absolute;
+    right: 8px;
+    color: #000000;
+    font-size: 1.2em;
+    top: 20px;
+}
+
+.enviar{
+    float: left;
+    width: 45%;
+    padding: 6px 0;
+    font-size: 1em;
+    font-weight: Semi Bold;
+    color:white;
+    background:#000000;
+    border:none;
+    border-radius: 20px;
+    transition: 10s all;
+    cursor:pointer;
+}
+
+.borrar{
+    float: right;
+    width: 45%;
+    padding: 6px 0;
+    font-size: 1em;
+    font-weight: Semi Bold;
+    color:white;
+    background:#000000;
+    border:none;
+    border-radius: 20px;
+    transition: 10s all;
+    cursor:pointer;
+}

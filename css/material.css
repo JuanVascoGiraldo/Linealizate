@@ -1,0 +1,72 @@
+.main_container {
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 1px 2px 8px #0000008a;
+    width: 95%;
+    max-width: 1000px;
+    margin: 30px auto;
+    text-align: center;
+  }
+  
+  .mini_header {
+    background-color: #146C94;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 1%;
+    font-weight: bold;
+    color: white;
+  }
+  .titulomat{
+    margin: 30px 20px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  
+  .vermat{
+    margin: 30px 20px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-wrap: wrap-reverse;
+  }
+  
+  .ira {
+    display: flex;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    font-size: 2rem;
+    border-bottom: 5px solid #ffffff00;
+    transition: all .15s linear;
+    margin-right: 30%;
+    margin-left: 30%;
+    text-align: center;
+    padding: 10px;
+    padding-left: 10%;
+    background-color: #146C94;
+    border-radius: 5px;
+}
+
+
+.ira:hover {
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+    border-bottom: 5px solid rgba(155, 55, 55, 0);
+    background-color: #146C94;
+}
+
+@media (max-width: 500px) {
+    .vermat {
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.video{
+    margin-left: 30%;
+    margin-right: 30%;
+}
