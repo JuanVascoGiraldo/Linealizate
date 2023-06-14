@@ -4,7 +4,7 @@ package Modelo;
 public class Usuario {
     long boleta;
     int id, rol;
-    String nombre, password, email, id_cifrado;
+    String nombre, password, email, id_cifrado, rol_cifrado;
 
     public Usuario() {
     }
@@ -63,6 +63,14 @@ public class Usuario {
 
     public void setId_cifrado(String id_cifrado) {
         this.id_cifrado = id_cifrado;
+    }
+
+    public String getRol_cifrado() {
+        return rol_cifrado;
+    }
+
+    public void setRol_cifrado(String rol_cifrado) {
+        this.rol_cifrado = rol_cifrado;
     }
     
     

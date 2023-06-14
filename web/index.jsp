@@ -1,5 +1,30 @@
+<%@page import="Control.Cifrado"%>
+<%@page import="Modelo.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8" session="true" language="java"%>
+<%
+    HttpSession sesion = request.getSession(true);
+    Usuario usu = (Usuario)sesion.getAttribute("usuario");
+    if(usu!=null){
+    
+        int id_rol = Integer.valueOf(Cifrado.decrypt(usu.getRol_cifrado()));
+        if(id_rol==1){//Admin
+            response.sendRedirect("./inicioadmin.jsp");
+        }
 
+        if(id_rol==2){//publicador
+             response.sendRedirect("./iniciopublicador.jsp");
+        }
+
+        if(id_rol==3){//usuario
+             response.sendRedirect("./inicioestudiante.jsp");
+        }
+        
+    }
+    
+
+
+
+%>
 <!DOCTYPE html>
 <html lang="en">
 
