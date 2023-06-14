@@ -37,30 +37,30 @@
   <h3 class="header">Crear publicacion</h3>
   <div class="formContainer">
     <div class="content">
-      <form class="form" action="">
+      <form class="form" name="publicar"action="">
         <input class="input" type="text" name="Title" id="title" placeholder="Titulo">
         <br />
         <div class="inputContainer">
           <h5>Tipo de material: </h5>
           <select class="select" name="Tipo" id="tipo">
-            <option disabled hidden>Selecciona el tipo de material</option>
-            <option value="video">Video</option>
-            <option value="info">Infografia</option>
-            <option value="ejemlpo">Ejemplo</option>
-            <option value="exam">Examenes</option>
-            <option value="listas">Listas</option>
+            <option disabled hidden value="0">Selecciona el tipo de material</option>
+            <option value="1">Video</option>
+            <option value="2">Infografia</option>
+            <option value="3">Ejemplo</option>
+            <option value="4">Examenes</option>
+            <option value="5">Listas</option>
           </select>
         </div>
         <div class="inputContainer">
           <h5>Unidad: </h5>
-          <select class="select" name="Unidad" id="unidad">
-            <option disabled hidden>Selecciona la unidad</option>
+          <select class="select" name="Unidad" id="unidad" onchange="javascript:imputcheck()">
+            <option disabled hidden value="0">Selecciona la unidad</option>
             <option value="1">Unidad 1</option>
             <option value="2">Unidad 2</option>
             <option value="3">Unidad 3</option>
           </select>
         </div>
-        <div class="checkboxContainer">
+        <div class="checkboxContainer" id="cambiar1">
           <h5>Temas:</h5>
           <div class="checkbox">
             <div class="checkboxItem">
@@ -83,10 +83,10 @@
         </div>
         <br>
         <input class="input" type="url" name="link" id="link" placeholder="Link">
-        <input class="input" type="text" placeholder="Bibliografia">
+        <input class="input" type="text" id="Bibliografia" placeholder="Bibliografia">
         <br>
         <div class="buttonContainer">
-          <button class="button" type="button">Publicar</button>
+          <button class="button" type="button" onclick="Publicar()">Publicar</button>
         </div>
       </form>
     </div>

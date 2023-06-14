@@ -91,7 +91,7 @@
 
   <div class="modal" id="modalEstu">
     <div class="card">
-        <form action="" name="registrar">
+        <form action="" name="excel">
             <label for="" class="article">Registrar grupo</label><br>
             <hr class="linea">
             <label for="" class="article">Ingresa el archivo excel de los estudiantes</label>
@@ -102,8 +102,11 @@
             </div>
             <br>
             <br>
-            <button type="button" class="submit" id="enviar">Registrar</button>
+            <button type="button" class="submit" id="enviar" onclick="document.excel.submit()">Registrar</button>
         </form>
+        <div id="excel">
+
+        </div>
     </div>
   </div>
 
@@ -118,8 +121,11 @@
             <input type="text" name="correo" id="correo" placeholder="Correo electronico" class="input" value="">
             <input type="number" name="boleta" id="boleta" placeholder="Numero de boleta" class="input" min="2" max="9999999999"value="">
             <br>
-            <button type="button" class="submit" id="enviar">Registrar</button>
+            <button type="button" class="submit" id="enviar" onclick="RegistrarEstudiante()">Registrar</button>
         </form>
+        <div id="registro">
+
+        </div>
     </div>
   </div>
 
@@ -134,8 +140,11 @@
             <input type="text" name="correoMod" id="correoMod" placeholder="Correo electronico" class="input" value="">
             <input type="number" name="boletaMod" id="boletaMod" placeholder="Numero de boleta" class="input" min="2" max="9999999999"value="">
             <br>
-            <button type="button" class="submit" id="enviar">Modificar</button>
+            <button type="button" class="submit" id="enviar" onclick="ModificarEstudiante()">Modificar</button>
         </form>
+        <div id="modifi">
+
+        </div>
     </div>
   </div>
 
