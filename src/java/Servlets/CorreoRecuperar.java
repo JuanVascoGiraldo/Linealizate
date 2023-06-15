@@ -3,6 +3,8 @@ package Servlets;
 
 import Control.Cifrado;
 import Control.ControlUsuario;
+import Control.EnviarCorreo;
+import Control.JWT;
 import Control.Validacion;
 import Modelo.Usuario;
 import java.io.IOException;
@@ -14,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
-public class IniciarSesion extends HttpServlet {
+public class CorreoRecuperar extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,46 +31,31 @@ public class IniciarSesion extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            
             String boleta = request.getParameter("boleta");
-            String contra = request.getParameter("password");
             HttpSession sesion = request.getSession(true);
             if(sesion.getAttribute("usuario")== null){
-                    if(boleta != null && contra!=null){
-                        if(Validacion.ValidarBoleta(boleta) && (Validacion.Validarcontra(contra)||Validacion.ValidarBoleta(contra))){
-                            try{
-                                Usuario usu = new Usuario();
-                                usu = ControlUsuario.InisiarSesioon(Long.valueOf(boleta), Cifrado.encrypt(contra));
-                                if(!usu.getNombre().equals("no encontrado")){
-                                    usu.setRol_cifrado(Cifrado.encrypt(String.valueOf(usu.getRol())));
-                                    if(usu.getRol()==1){//Admin
-                                        usu.setRol(0);
-                                        sesion.setAttribute("usuario", usu);
-                                        out.println("<script>location.href= './inicioadmin.jsp'</script>");
-                                        }
-
-                                    if(usu.getRol()==2){//publicador
-                                        usu.setRol(0);
-                                        sesion.setAttribute("usuario", usu);
-                                        out.println("<script>location.href= './iniciopublicador.jsp'</script>");
-                                    }
-
-                                    if(usu.getRol()==3){//usuario
-                                        usu.setRol(0);
-                                        sesion.setAttribute("usuario", usu);
-                                        out.println("<script>location.href= './inicioestudiante.jsp'</script>");
-                                    }
-                                
-                                }else{
-                                    out.println("<script>");
-                                        out.println("Swal.fire({");
-                                              out.println("icon: 'error',");
-                                             out.println("title: 'Usuario no encontrado',");
-                                             out.println("text: 'la boleta o contraseña son incorrectas'");
-                                        out.println(" });");
-                                    out.println("</script>");
-                                }
-                            }catch(Exception e){
-                                System.out.println(e.getMessage());
+                    if(boleta != null){
+                        if(Validacion.ValidarBoleta(boleta)){
+                            Usuario rec = ControlUsuario.RecuperarPassword(Long.valueOf(boleta));
+                            if(!rec.getEmail().equals("NA")){
+                                String token = JWT.generateJWT(rec.getId());
+                                EnviarCorreo.sendEmail(rec.getEmail(), "Recuperar Contraseña", token, 2);
+                                out.println("<script>");
+                                    out.println("Swal.fire({");
+                                        out.println("icon: 'success',");
+                                        out.println("title: 'Correcto',");
+                                        out.println("text: 'El correo se ha enviado'");
+                                    out.println(" });");
+                                out.println("</script>");
+                            }else{
+                                out.println("<script>");
+                                    out.println("Swal.fire({");
+                                          out.println("icon: 'error',");
+                                         out.println("title: 'Oops...',");
+                                         out.println("text: 'La boleta no existe'");
+                                    out.println(" });");
+                                out.println("</script>");
                             }
                         }else{
                             out.println("<script>");
@@ -106,6 +93,7 @@ public class IniciarSesion extends HttpServlet {
                     
                 }catch(Exception e){
                     System.out.println("id invalido");
+                     out.println("<script>location.href= './index.jsp'</script>");
                 }
                 
                 

@@ -3,6 +3,7 @@ package Servlets;
 
 import Control.Cifrado;
 import Control.ControlUsuario;
+import Control.JWT;
 import Control.Validacion;
 import Modelo.Usuario;
 import java.io.IOException;
@@ -13,8 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
-public class IniciarSesion extends HttpServlet {
+public class Recontra extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,58 +29,58 @@ public class IniciarSesion extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String boleta = request.getParameter("boleta");
-            String contra = request.getParameter("password");
-            HttpSession sesion = request.getSession(true);
-            if(sesion.getAttribute("usuario")== null){
-                    if(boleta != null && contra!=null){
-                        if(Validacion.ValidarBoleta(boleta) && (Validacion.Validarcontra(contra)||Validacion.ValidarBoleta(contra))){
-                            try{
-                                Usuario usu = new Usuario();
-                                usu = ControlUsuario.InisiarSesioon(Long.valueOf(boleta), Cifrado.encrypt(contra));
-                                if(!usu.getNombre().equals("no encontrado")){
-                                    usu.setRol_cifrado(Cifrado.encrypt(String.valueOf(usu.getRol())));
-                                    if(usu.getRol()==1){//Admin
-                                        usu.setRol(0);
-                                        sesion.setAttribute("usuario", usu);
-                                        out.println("<script>location.href= './inicioadmin.jsp'</script>");
-                                        }
-
-                                    if(usu.getRol()==2){//publicador
-                                        usu.setRol(0);
-                                        sesion.setAttribute("usuario", usu);
-                                        out.println("<script>location.href= './iniciopublicador.jsp'</script>");
-                                    }
-
-                                    if(usu.getRol()==3){//usuario
-                                        usu.setRol(0);
-                                        sesion.setAttribute("usuario", usu);
-                                        out.println("<script>location.href= './inicioestudiante.jsp'</script>");
-                                    }
-                                
+            try{
+                String token = request.getParameter("token");
+                String pass = request.getParameter("password");
+                HttpSession sesion = request.getSession(true);
+                if(sesion.getAttribute("usuario")== null){
+                    if(token!= null && pass!= null){
+                        int id= JWT.readJWT(token);
+                        if(id>=0){
+                            if(Validacion.Validarcontra(pass)){
+                                boolean seg = ControlUsuario.CambiarPassword(id, pass);
+                                if(seg){
+                                    out.println("<script>");
+                                    out.println("Swal.fire({");
+                                        out.println("icon: 'success',");
+                                        out.println("title: 'Correcto',");
+                                        out.println("text: 'La contraseña se ha cambiado'");
+                                    out.println(" });");
+                                    out.println("setTimeout(function() {");
+                                         out.println("location.href = './index.jsp' ");
+                                     out.println("}, 2000);");
+                                out.println("</script>");
                                 }else{
                                     out.println("<script>");
                                         out.println("Swal.fire({");
                                               out.println("icon: 'error',");
-                                             out.println("title: 'Usuario no encontrado',");
-                                             out.println("text: 'la boleta o contraseña son incorrectas'");
+                                             out.println("title: 'Oops...',");
+                                             out.println("text: 'Error intenta mas tarde'");
                                         out.println(" });");
                                     out.println("</script>");
                                 }
-                            }catch(Exception e){
-                                System.out.println(e.getMessage());
+                            }else{
+                                out.println("<script>");
+                                    out.println("Swal.fire({");
+                                          out.println("icon: 'error',");
+                                         out.println("title: 'Oops...',");
+                                         out.println("text: 'Ingresa solo caracteres validos'");
+                                    out.println(" });");
+                                out.println("</script>");
                             }
                         }else{
                             out.println("<script>");
                                 out.println("Swal.fire({");
                                       out.println("icon: 'error',");
                                      out.println("title: 'Oops...',");
-                                     out.println("text: 'Ingresa caracteres validos'");
+                                     out.println("text: 'El token es invalido'");
                                 out.println(" });");
                             out.println("</script>");
+
                         }
+                    
                     }else{
-                         out.println("<script>");
+                        out.println("<script>");
                             out.println("Swal.fire({");
                                   out.println("icon: 'error',");
                                  out.println("title: 'Oops...',");
@@ -88,8 +88,8 @@ public class IniciarSesion extends HttpServlet {
                             out.println(" });");
                         out.println("</script>");
                     }
-            }else{
-                try{
+                
+                }else{
                     Usuario usu = (Usuario)sesion.getAttribute("usuario");
                     int id_rol = Integer.valueOf(Cifrado.decrypt(usu.getRol_cifrado()));
                     if(id_rol==1){//Admin
@@ -103,12 +103,16 @@ public class IniciarSesion extends HttpServlet {
                     if(id_rol==3){//usuario
                         out.println("<script>location.href= './inicioestudiante.jsp'</script>");
                     }
-                    
-                }catch(Exception e){
-                    System.out.println("id invalido");
                 }
-                
-                
+            }catch(Exception e){
+                System.out.println(e.getMessage());
+                out.println("<script>");
+                    out.println("Swal.fire({");
+                          out.println("icon: 'error',");
+                         out.println("title: 'Oops...',");
+                         out.println("text: 'error'");
+                    out.println(" });");
+                out.println("</script>");
             }
         }
     }

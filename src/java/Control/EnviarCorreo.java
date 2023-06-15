@@ -11,7 +11,7 @@ import java.util.Properties;
 
 public class EnviarCorreo {
     
-    private static String Link = "usu";
+    private static String Link = "http://localhost:8084/Linealizate/";
     
     public static void sendEmail(String recipient, String subject, String token, int act) {
         // Configuración de propiedades
@@ -36,9 +36,10 @@ public class EnviarCorreo {
         String body =  "";
         
         if(act ==1){
-            body= CorreoRegistro();
+            body = CorreoRegistro();
         }else{
-            
+            System.out.println("a");
+            body = CorreoRecuperarContra(token);
         }
 
         try {
@@ -46,11 +47,21 @@ public class EnviarCorreo {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
+            message.setContent(body, "text/html");
             message.setSubject(subject);
-            message.setText(body);
 
             // Envío del mensaje
-            Transport.send(message);
+            Thread thread = new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        Transport.send(message);
+                        System.out.println("Correo electrónico enviado correctamente");
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
 
             System.out.println("Correo electrónico enviado exitosamente");
         } catch (MessagingException e) {
@@ -195,7 +206,7 @@ public class EnviarCorreo {
     }
     
     public static String CorreoRecuperarContra(String token){
-        String linkauth = Link+"/Recuperar.jsp?token="+token;
+        String linkauth = Link+"cambiarcontra.jsp?token="+token;
         String correo="<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n" +
             "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" style=\"font-family:georgia, times, 'times new roman', serif\">\n" +
             "<head>\n" +

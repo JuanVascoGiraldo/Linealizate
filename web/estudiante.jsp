@@ -1,5 +1,35 @@
+<%@page import="Modelo.Usuario"%>
+<%@page import="Control.Cifrado"%>
 <%@page contentType="text/html" pageEncoding="UTF-8" session="true" language="java"%>
+<%
+    HttpSession sesion = request.getSession(true);
+    Usuario usu = (Usuario)sesion.getAttribute("usuario");
+    if(usu!=null){
+        try{
+            int id_rol = Integer.valueOf(Cifrado.decrypt(usu.getRol_cifrado()));
+            if(id_rol==2){//publicador
+                 response.sendRedirect("./iniciopublicador.jsp");
+            }
 
+            if(id_rol==3){//usuario
+                 response.sendRedirect("./inicioestudiante.jsp");
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            %> 
+                    <jsp:forward page="index.jsp">
+                        <jsp:param name="Error" value="Es obligatorio identificarse" />
+                    </jsp:forward>
+            <%
+        }
+    }else{
+        %> 
+        <jsp:forward page="index.jsp">
+            <jsp:param name="Error" value="Es obligatorio identificarse" />
+        </jsp:forward>
+<%
+    }
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,10 +68,9 @@
       <h5 class="titulo">Linealizate</h5>
     </div>
     <ul>
-      <li><a href="">Estudiantes</a></li>
-      <li><a href="">Publicaciones</a></li>
-      <li><a href="#" data-open="modalR1" >ContraseÃ±a</a></li>
-      <li><a href="#">Cerrar Sesion</a></li>
+      <li><a href="./inicioadmin.jsp">Inicio</a></li>
+      <li><a href="./adminpublicaciones.jsp">Publicaciones</a></li>
+      <li><a onclick="Cerrarsesion()">Cerrar Sesion</a></li>
       <li class="fa-solid fa-user" style="color: #FFF;"></li>
     </ul>
   </nav>
@@ -51,51 +80,13 @@
     <button class="cs" data-open="modal31">Eliminar Grupo</button>
   </div>
   
-  <div class="alinear">
-    <div class="flex">
-        <div class="m">
-            <img src="./imagenes/estudiar.png">
-        </div>
-        <div></div>
-        <div class="text">
-            <h3>Juan esteban vasco firaldo</h3>
-            <hr>
-            <h4>juan@gmail.com</h4>
-            <h4>1010101001</h4>
-        </div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+    <div id="Estudiantes">
+        
     </div>
-    <div class="btn">
-        <button class="cs" data-open="modal3">Eliminar</button>
-        <button onclick="" class="mc" data-open="modalMod">Modificar</button>
-    </div>
-  </div>
 
-  <div class="alinear">
-    <div class="flex">
-        <div class="m">
-            <img src="./imagenes/estudiar.png">
-        </div>
-        <div></div>
-        <div class="text">
-            <h3>Juan esteban vasco firaldo</h3>
-            <hr>
-            <h4>juan@gmail.com</h4>
-            <h4>1010101001</h4>
-        </div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+    <div id="notificacion">
+        
     </div>
-    <div class="btn">
-        <button class="cs" data-open="modal3">Eliminar</button>
-        <button onclick="" class="mc" data-open="modalMod">Modificar</button>
-    </div>
-  </div>
 
   <div class="modal" id="modalEstu">
     <div class="card">
@@ -131,9 +122,6 @@
             <br>
             <button type="button" class="submit" id="enviar" onclick="RegistrarEstudiante()">Registrar</button>
         </form>
-        <div id="registro">
-
-        </div>
     </div>
   </div>
 
@@ -144,30 +132,28 @@
             <br>
             <hr class="linea">
             <br>
+            <input type="hidden" name="idE" id="idMod" value="">
             <input type="text" name="nomMod" id="nomMod" placeholder="Nombre del Estudiante" class="input" value="">
             <input type="text" name="correoMod" id="correoMod" placeholder="Correo electronico" class="input" value="">
             <input type="number" name="boletaMod" id="boletaMod" placeholder="Numero de boleta" class="input" min="2" max="9999999999"value="">
             <br>
             <button type="button" class="submit" id="enviar" onclick="ModificarEstudiante()">Modificar</button>
         </form>
-        <div id="modifi">
-
-        </div>
     </div>
   </div>
 
   <div class="modal" id="modal3">
       <div class="card">
-          <form name="deshabilitar" action=""><input type="hidden" name="id" id="id" value=""></form>
-          <h4>Cuidado, esta acciÃ³n podrÃ­a afectar el flujo del sistema</h4>
-          <button class="cs" onclick="Deshabilitar()">Eliminar Cuenta</button>
-          <button class="submit"  onclick="crm2()">No inhabilitar cuenta</button>
+          <form name="deshabilitar" action=""><input type="hidden" name="idE" id="idE" value=""></form>
+          <h4>Cuidado, esta accion podra afectar el flujo del sistema</h4>
+          <button class="cs" onclick="Eliminar()">Eliminar Cuenta</button>
+          <button class="submit"  onclick="crm2()">No Eliminar Cuenta</button>
       </div>
   </div>
 
   <div class="modal" id="modal31">
     <div class="card">
-        <h4>Cuidado, esta acciÃ³n podrÃ­a afectar el flujo del sistema</h4>
+        <h4>Cuidado, esta accion podra afectar el flujo del sistema</h4>
         <button class="cs" onclick="EliminarGrupo()">Eliminar Grupo</button>
         <button class="submit" onclick="crm()">No inhabilitar Grupo</button>
     </div>
@@ -176,6 +162,7 @@
 	<script src="./js/validar.js"></script>
 	<script src="./js/modal.js"></script>
   <script>
+     ObtenerEstudiante();
     const fileLabel = document.getElementById('src-file1');
     fileLabel.setAttribute('data-nombre-archivo', "Seleccionar Archivo");
     fileLabel.classList.add('mostrar-archivo');

@@ -1,5 +1,35 @@
+<%@page import="Modelo.Usuario"%>
+<%@page import="Control.Cifrado"%>
 <%@page contentType="text/html" pageEncoding="UTF-8" session="true" language="java"%>
+<%
+    HttpSession sesion = request.getSession(true);
+    Usuario usu = (Usuario)sesion.getAttribute("usuario");
+    if(usu!=null){
+        try{
+            int id_rol = Integer.valueOf(Cifrado.decrypt(usu.getRol_cifrado()));
+            if(id_rol==1){//Admin
+                response.sendRedirect("./inicioadmin.jsp");
+            }
 
+            if(id_rol==3){//usuario
+                 response.sendRedirect("./inicioestudiante.jsp");
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+                        %> 
+                    <jsp:forward page="index.jsp">
+                        <jsp:param name="Error" value="Es obligatorio identificarse" />
+                    </jsp:forward>
+            <%
+        }
+    }else{
+        %> 
+        <jsp:forward page="index.jsp">
+            <jsp:param name="Error" value="Es obligatorio identificarse" />
+        </jsp:forward>
+<%
+    }
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,8 +67,9 @@
       <h5 class="titulo">Linealizate</h5>
     </div>
     <ul>
-      <li><a href="">Inicio</a></li>
-      <li><a href="">Publicaciones</a></li>
+      <li><a href="./iniciopublicador.jsp">Inicio</a></li>
+      <li><a href="./publicaciones.jsp">Publicaciones</a></li>
+      <li><a onclick="Cerrarsesion()">Cerrar Sesion</a></li>
       <li class="fa-solid fa-user" style="color: #FFF;"></li>
     </ul>
   </nav>

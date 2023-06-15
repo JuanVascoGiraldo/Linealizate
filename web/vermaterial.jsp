@@ -1,5 +1,35 @@
+<%@page import="Modelo.Usuario"%>
+<%@page import="Control.Cifrado"%>
 <%@page contentType="text/html" pageEncoding="UTF-8" session="true" language="java"%>
+<%
+    HttpSession sesion = request.getSession(true);
+    Usuario usu = (Usuario)sesion.getAttribute("usuario");
+    if(usu!=null){
+        try{
+            int id_rol = Integer.valueOf(Cifrado.decrypt(usu.getRol_cifrado()));
+            if(id_rol==1){//Admin
+                response.sendRedirect("./inicioadmin.jsp");
+            }
 
+            if(id_rol==2){//publicador
+                 response.sendRedirect("./iniciopublicador.jsp");
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+                        %> 
+                    <jsp:forward page="index.jsp">
+                        <jsp:param name="Error" value="Es obligatorio identificarse" />
+                    </jsp:forward>
+            <%
+        }
+    }else{
+        %> 
+        <jsp:forward page="index.jsp">
+            <jsp:param name="Error" value="Es obligatorio identificarse" />
+        </jsp:forward>
+<%
+    }
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,8 +68,8 @@
         <h5 class="titulo">Linealizate</h5>
     </div>
     <ul>
-        <li><a href="">volver</a></li>
-        <li><a href="#">Cerrar Sesion</a></li>
+        <li><a href="./material.jsp">volver</a></li>
+        <li><a onclick="Cerrarsesion()">Cerrar Sesion</a></li>
         <li class="fa-solid fa-user" style="color: #FFF;"></li>
     </ul>
     </nav>
@@ -49,10 +79,10 @@
     <h4 class="header2">Temas 1, Temas 2, Temas 3</h4>
     <br>
     <div class="video">
-       <iframe width="100%" height="315" src="https://www.youtube.com/watch?v=iogcY_4xGjo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> 
+       <iframe width="100%" height="315" src="https://www.youtube.com/embed/4PbqnDBQuhU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> 
     </div>
     
-    <iframe src="file:///C:/Users/Juanv/Downloads/Lista%203%20MyE.pdf" width="80%" height="600px" style="margin-left: 10%;"></iframe>
+    <iframe src="https://drive.google.com/file/d/1SN-WSot-0P7_WxnFrjzG5hYRw1il1/preview" width="80%" height="600px" style="margin-left: 10%;"></iframe>
     
     <br>
     <h4 class="header2">Bibliografia</h4>

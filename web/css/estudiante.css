@@ -1,0 +1,270 @@
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: var(--black);
+    cursor: pointer;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.35s ease-in;
+    background-color: #bebabac9;
+}
+
+.modal {
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.35s ease-in;
+}
+
+.modal.is-visible {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+/*
+    Estilos del modal, o del form
+*/
+
+.card {
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 1px 2px 8px #0000008a;
+    padding: 1%;
+    width: 95%;
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+    cursor: default;
+}
+
+.input {
+    background-color: white;
+    padding: 10px;
+    width: 90%;
+    max-width: 400px;
+    margin: 15px auto;
+    border-radius: 5px;
+    border: 1px solid #BCBCBC;
+}
+
+.article {
+    background-color: white;
+    font-size: 24px;
+}
+
+.linea{
+    width: 60%;
+    margin-left: 20%;
+    margin-right: 20%;
+    border: 1px solid black;
+}
+
+
+.submit {
+    background-color: #000000;
+    width: 60%;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #000000;
+    cursor: pointer;
+    margin: 10px;
+    font-size: 16px;
+    color: white;
+}
+
+.submit {
+    margin-bottom: 20px;
+}
+
+.submit {
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.submit {
+    background-color: #146C94;
+    padding: 15px 20px;
+    border-radius: 5px;
+    border: 1px solid #146C94;
+    cursor: pointer;
+    font-size: 1.35rem;
+    width: 90%;
+    max-width: 300px;
+    margin: 10px;
+    color: rgb(255, 255, 255);
+    height: auto;
+}
+
+.cs {
+    background-color: #E96161;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin: 10px;
+    border: 1px solid #E96161;
+    cursor: default;
+    font-size: 1.35rem;
+    width: 90%;
+    max-width: 300px;
+    transition: all .15s linear;
+}
+
+.cs:hover {
+    background-color: #e98888;
+    border: 1px solid #e98888;
+}
+
+hr {
+    background-color: black;
+    border: 1px solid black;
+}
+
+.m {
+    width: 20%;
+    background-color: #ffffff;
+    border-radius: 50%;
+    padding: 10px;
+    margin: 0 15px;
+    display: inline;
+}
+
+.m>img {
+    width: 100%;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: left;
+    background-color: #F6F1F1;
+    border-radius: 10px;
+    box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.5);
+    margin: 0 50px;
+    width: 50%;
+    min-width: 300px;
+}
+
+.flex2 {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: left;
+    background-color: #e98888;
+    border-radius: 10px;
+    box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.5);
+    margin: 0 50px;
+    width: 50%;
+    min-width: 300px;
+}
+
+.card2 {
+    display: inline-block;
+    padding: 20px;
+    width: 65%;
+}
+
+.btn {
+    display: flex;
+    flex-direction: column;
+}
+
+.alinear {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 15px auto;
+    height: auto;
+}
+
+.ch {
+    background-color: #FFC83A;
+    padding: 15px 20px;
+    border-radius: 5px;
+    border: 1px solid #FFC83A;
+    cursor: pointer;
+    font-size: 1.35rem;
+    width: 90%;
+    max-width: 300px;
+    margin: 10px;
+    color: rgb(0, 0, 0);
+    height: auto;
+}
+
+
+.mc {
+    background-color: #19A7CE;
+    padding: 15px 20px;
+    border-radius: 5px;
+    border: 1px solid #19A7CE;
+    cursor: pointer;
+    font-size: 1.35rem;
+    width: 90%;
+    max-width: 300px;
+    margin: 10px;
+    color: rgb(255, 255, 255);
+}
+
+.ac {
+    background-color: #E9C6FF;
+    padding: 15px 20px;
+    border-radius: 5px;
+    border: 1px solid #E9C6FF;
+    cursor: pointer;
+    font-size: 1.35rem;
+    width: 90%;
+    max-width: 300px;
+    margin: 10px;
+    color: rgb(0, 0, 0);
+}
+
+.file-select {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .file-select::before {
+    background-color: #146C94;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    content: 'Seleccionar'; /* testo por defecto */
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    font-weight: bold;
+  }
+  
+  .file-select input[type="file"] {
+    opacity: 0;
+    width: 400px;
+    height: 32px;
+    display: inline-block;
+  }
+  
+  #src-file1::before {
+    content: attr(data-nombre-archivo);
+  }
+
+  .mostrar-archivo::before {
+    content: attr(data-nombre-archivo);
+  }
+
+  .arriba{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }

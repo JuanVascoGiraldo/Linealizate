@@ -43,7 +43,7 @@ function validarcontrasena(contrasena) {
 }
 
 function validarnombre(nombre) {
-    var validar = expresiononlytext.test(nombre);
+    var validar = expresionnombre.test(nombre);
     if (!validar) {
         Swal.fire({
             icon: 'error',
@@ -51,7 +51,7 @@ function validarnombre(nombre) {
             text: 'Ingrese un nombre valido (solo letras)'
         });
         return false;
-    } else if (nombre.length > 60 || nombre.length == 0) {
+    } else if (nombre.length > 60 || nombre.length === 0) {
         Swal.fire({
             icon: 'error',
             title: 'El tamaño del nombre no es correcto',
@@ -63,13 +63,13 @@ function validarnombre(nombre) {
     }
 }
 
-function validarboleta(boleta){
+function validarboleta(boleta, msg){
     var validar = expresionboleta.test(boleta);
     if (!validar) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'La Boleta no es valida'
+            text: 'La '+msg+' no es valida'
         });
     }else if(boleta.length !=10){
         Swal.fire({
@@ -145,7 +145,7 @@ function validarBibliografia(bibliografia){
 function ValidarIS(){
     let boleta = document.getElementById("boletaI").value;
     let pass = document.getElementById("password").value;
-    if(validarboleta(boleta) && validarcontrasena(pass)){
+    if(validarboleta(boleta, "Boleta") &&( validarcontrasena(pass)||validarboleta(pass, "Contraseña"))){
         $.post('IniciarSesion', {
             boleta: boleta,
             password: pass
@@ -159,7 +159,7 @@ function ValidarIS(){
 function RecuparContra(){
     let boleta = document.getElementById("boletaR").value;
     if(validarboleta(boleta)){
-        $.post('Recuperar', {
+        $.post('CorreoRecuperar', {
             boleta: boleta
         }, function(responseText) {
                 $('#cambiar2').html(responseText);
@@ -195,7 +195,7 @@ function CambiarContra(){
     let password = document.getElementById("password").value;
     let confpassword= document.getElementById("passwordconf").value;
 
-    if (pass != confpas) {
+    if (password!= confpassword) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -271,34 +271,45 @@ function RegistrarEstudiante(){
     let nombre =  document.getElementById("nombre").value;
     let boleta =  document.getElementById("boleta").value;
     let correo =  document.getElementById("correo").value;
-    if(validarboleta(boleta) && validarnombre(nombre) && validarcorreo(correo)){
-        $('#registro').html(loading);
+    if(validarboleta(boleta, "Boleta") && validarnombre(nombre) && validarcorreo(correo)){
+        reg();
+        $('#notificacion').html(loading);
 
         $.post('RegistrarEstudiante', {
             nombre,
             boleta,
             correo
         }, function(responseText) {
-                $('#registro').html(responseText);
+                $('#notificacion').html(responseText);
         });
+        setTimeout(function() {
+            ObtenerEstudiante();
+        }, 2000);
     }
 }
 
 
 function ModificarEstudiante(){
-    let nombre =  document.getElementById("nombre").value;
-    let boleta =  document.getElementById("boleta").value;
-    let correo =  document.getElementById("correo").value;
-    if(validarboleta(boleta) && validarnombre(nombre) && validarcorreo(correo)){
-        $('#modifi').html(loading);
+    let id = document.getElementById("idMod").value;
+    let nombre =  document.getElementById("nomMod").value;
+    let boleta =  document.getElementById("boletaMod").value;
+    let correo =  document.getElementById("correoMod").value;
+    if(validarboleta(boleta, "Boleta") && validarnombre(nombre) && validarcorreo(correo)){
+        mod();
+        $('#notificacion').html(loading);
 
         $.post('ModificarEstudiante', {
+            id,
             nombre,
             boleta,
             correo
         }, function(responseText) {
-                $('#modifi').html(responseText);
+                $('#notificacion').html(responseText);
         });
+        setTimeout(function() {
+            ObtenerEstudiante();
+        }, 2000);
+        
     }
 }
 
@@ -309,6 +320,63 @@ function ObtenerEstudiante(){
             $('#Estudiantes').html(responseText);
     });
 }
+
+
+function Cerrarsesion(){
+    location.href = "./CerrarSesion";
+    
+}
+
+function EnviarModE(id){
+    let ide = document.getElementById("idE");
+    ide.value= id;
+    
+}
+
+function EnviarModF(id, nombre, correo, boleta){
+    console.log("miau")
+    document.getElementById("idMod").value= id;
+    document.getElementById("nomMod").value= nombre;
+    document.getElementById("correoMod").value= correo;
+    document.getElementById("boletaMod").value= boleta;
+    
+}
+
+function Eliminar(){
+    crm2();
+    $('#notificacion').html(loading);
+    let ide = document.getElementById("idE").value;
+    $.post('EliminarEstudiante', {
+            eliminar: ide
+        }, function(responseText) {
+                $('#notificacion').html(responseText);
+        });
+    setTimeout(function() {
+            ObtenerEstudiante();
+        }, 2000);
+}
+
+function ResContraV(){
+    let password = document.getElementById("password").value;
+    let confpassword= document.getElementById("confpassword").value;
+    let token = document.getElementById("token").value;
+
+    if (password!= confpassword) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Las contraseñas no coinciden'
+        });
+    } else if(validarcontrasena(password) && validarcontrasena(confpassword)){
+        $('#cambiar').html(loading);
+        $.post('Recontra', {
+            password,
+            token
+        }, function(responseText) {
+                $('#cambiar').html(responseText);
+        });
+    }
+ }
 
 
 

@@ -5,25 +5,25 @@
     HttpSession sesion = request.getSession(true);
     Usuario usu = (Usuario)sesion.getAttribute("usuario");
     if(usu!=null){
-    
-        int id_rol = Integer.valueOf(Cifrado.decrypt(usu.getRol_cifrado()));
-        if(id_rol==1){//Admin
-            response.sendRedirect("./inicioadmin.jsp");
-        }
+        try{
+            int id_rol = Integer.valueOf(Cifrado.decrypt(usu.getRol_cifrado()));
+            if(id_rol==1){//Admin
+                response.sendRedirect("./inicioadmin.jsp");
+            }
 
-        if(id_rol==2){//publicador
-             response.sendRedirect("./iniciopublicador.jsp");
-        }
+            if(id_rol==2){//publicador
+                 response.sendRedirect("./iniciopublicador.jsp");
+            }
 
-        if(id_rol==3){//usuario
-             response.sendRedirect("./inicioestudiante.jsp");
+            if(id_rol==3){//usuario
+                 response.sendRedirect("./inicioestudiante.jsp");
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
         }
         
+        
     }
-    
-
-
-
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -88,7 +88,7 @@
 			<div class="modal" id="modalR1">
 				<div class="card">
 					<form action="" name="recuperar">
-						<label for="" class="article">Recuperar ContraseÃ±a</label><br>
+						<label for="" class="article">Recuperar Contraseña</label><br>
 						<br>
 						<hr class="linea">
 						<br>

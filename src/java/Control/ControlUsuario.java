@@ -17,9 +17,10 @@ public class ControlUsuario {
         try{
             usu.setPassword(Cifrado.encrypt(String.valueOf(usu.getBoleta())));
             con = ConexionBD.getConnection();
-            String sql = "select * from MUsuario where boleta_usu = ?";
+            String sql = "select * from MUsuario where boleta_usu = ? or correo_usu = ?";
             ps = con.prepareStatement(sql);
             ps.setLong(1, usu.getBoleta());
+            ps.setString(2, usu.getEmail());
             rs = ps.executeQuery();
             if(!rs.next()){
                 sql = "insert into MUsuario (boleta_usu, nom_usu,rol_usu, contra_usu, correo_usu) values(?,?,?,?,?)";
@@ -34,7 +35,10 @@ public class ControlUsuario {
                     resultado= true;
                 }
             }
-        
+            if(resultado){
+                EnviarCorreo.sendEmail(usu.getEmail(), "Correo de Registro", "", 1);
+            
+            }
         }catch(Exception e){
             System.out.println(e.getMessage());
         }finally{
@@ -98,7 +102,7 @@ public class ControlUsuario {
         ResultSet rs = null;
         try{
             con = ConexionBD.getConnection();
-            String sql = "select MUsuario.correo_usu MUsuario.id_usu from MUsuario where boleta_usu = ?";
+            String sql = "select MUsuario.correo_usu , MUsuario.id_usu from MUsuario where boleta_usu = ?";
             ps = con.prepareStatement(sql);
             ps.setLong(1, boleta);
             rs = ps.executeQuery();
@@ -160,6 +164,7 @@ public class ControlUsuario {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
+        ResultSet rs2 = null;
         try{
             con = ConexionBD.getConnection();
             String sql = "Select MUsuario.boleta_usu from MUsuario where id_usu = ?";
@@ -169,35 +174,44 @@ public class ControlUsuario {
             if(!rs.next()){//no existe el id a modificar
                resultado = false;
             }else{
-                if(rs.getLong("MUsuario.boleta_usu")==mod.getBoleta()){//no se va a modificar la boleta
-                    sql = "update MUsuario set nom_usu = ? , correo_usu = ? where id_usu = ?";
-                    ps = con.prepareStatement(sql);
-                    ps.setString(1, mod.getNombre());
-                    ps.setString(2, mod.getEmail());
-                    ps.setInt(3, Integer.valueOf(Cifrado.decrypt(mod.getId_cifrado())) );
-                    int estado = ps.executeUpdate();
-                    if(estado>0){
-                        resultado = true;
-                    }
-                }else{//se va a modificar la boleta
-                    //tenemos que ver la boleta no exista ya
-                    sql = "select * from MUSuario where boleta_usu = ?";
-                    ps = con.prepareStatement(sql);
-                    ps.setLong(1, mod.getBoleta());
-                    rs = ps.executeQuery();
-                    if(!rs.next()){
-                        sql = "update MUsuario set nom_usu = ? , correo_usu = ? , boleta_usu = ? where id_usu = ?";
+                sql = "select Musuario.boleta_usu from MUSuario where correo_usu = ?";
+                ps = con.prepareStatement(sql);
+                ps.setString(1, mod.getEmail());
+                rs2 = ps.executeQuery();
+                
+                if(!rs2.next() || (rs2.next() && rs2.getLong("boleta_usu")== mod.getBoleta())){
+                    if(rs.getLong("MUsuario.boleta_usu")==mod.getBoleta()){//no se va a modificar la boleta
+                        sql = "update MUsuario set nom_usu = ? , correo_usu = ? where id_usu = ?";
                         ps = con.prepareStatement(sql);
+                        System.out.println(mod.getBoleta());
                         ps.setString(1, mod.getNombre());
                         ps.setString(2, mod.getEmail());
-                        ps.setLong(3, mod.getBoleta());
-                        ps.setInt(4, Integer.valueOf(Cifrado.decrypt(mod.getId_cifrado())) );
+                        ps.setInt(3, Integer.valueOf(Cifrado.decrypt(mod.getId_cifrado())) );
                         int estado = ps.executeUpdate();
                         if(estado>0){
                             resultado = true;
                         }
-                    }else{
-                        resultado = false;
+                    }else{//se va a modificar la boleta
+                        //tenemos que ver la boleta no exista ya
+                        sql = "select * from MUSuario where boleta_usu = ?";
+                        ps = con.prepareStatement(sql);
+                        ps.setLong(1, mod.getBoleta());
+                        rs = ps.executeQuery();
+                        if(!rs.next()){
+                            sql = "update MUsuario set nom_usu = ? , correo_usu = ? , boleta_usu = ? where id_usu = ?";
+                            ps = con.prepareStatement(sql);
+                            ps.setString(1, mod.getNombre());
+                            ps.setString(2, mod.getEmail());
+                            ps.setLong(3, mod.getBoleta());
+                            System.out.println(mod.getBoleta());
+                            ps.setInt(4, Integer.valueOf(Cifrado.decrypt(mod.getId_cifrado())) );
+                            int estado = ps.executeUpdate();
+                            if(estado>0){
+                                resultado = true;
+                            }
+                        }else{
+                            resultado = false;
+                        }
                     }
                 }
             }
@@ -210,10 +224,11 @@ public class ControlUsuario {
                 con.close();
                 ps.close();
                 rs.close();
+                rs2.close();
             }
             catch(Exception error){
                 System.out.println("Error a cerrar la conexion");
-                System.out.println(error);
+                System.out.println(error.getMessage());
             }
         }
         return resultado;
@@ -226,7 +241,7 @@ public class ControlUsuario {
         ResultSet rs = null;
         try{
             con = ConexionBD.getConnection();
-            String sql = "Select MUsuario.nom_usu, MUsuario.id_usu, MUsuario.correo_usu, MUsuario.boleta_usu where rol_usu = 3";
+            String sql = "Select MUsuario.nom_usu, MUsuario.id_usu, MUsuario.correo_usu, MUsuario.boleta_usu from MUsuario where rol_usu = 3";
             ps= con.prepareStatement(sql);
             rs = ps.executeQuery();
             while(rs.next()){
@@ -259,7 +274,7 @@ public class ControlUsuario {
         PreparedStatement ps = null;
         try{
             con = ConexionBD.getConnection();
-            String sql = "DELETE FROM usuarios WHERE id_usu = ? and rol_usu = 3;";
+            String sql = "DELETE FROM MUsuario WHERE id_usu = ? and rol_usu = 3;";
             ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             int estado = ps.executeUpdate();

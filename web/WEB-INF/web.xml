@@ -4,9 +4,73 @@
         <servlet-name>IniciarSesion</servlet-name>
         <servlet-class>Servlets.IniciarSesion</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CerrarSesion</servlet-name>
+        <servlet-class>Servlets.CerrarSesion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>obtenerEstudiantes</servlet-name>
+        <servlet-class>Servlets.obtenerEstudiantes</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RegistrarEstudiante</servlet-name>
+        <servlet-class>Servlets.RegistrarEstudiante</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ModificarEstudiante</servlet-name>
+        <servlet-class>Servlets.ModificarEstudiante</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EliminarEstudiante</servlet-name>
+        <servlet-class>Servlets.EliminarEstudiante</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CambiarContra</servlet-name>
+        <servlet-class>Servlets.CambiarContra</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CorreoRecuperar</servlet-name>
+        <servlet-class>Servlets.CorreoRecuperar</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Recontra</servlet-name>
+        <servlet-class>Servlets.Recontra</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IniciarSesion</servlet-name>
         <url-pattern>/IniciarSesion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CerrarSesion</servlet-name>
+        <url-pattern>/CerrarSesion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>obtenerEstudiantes</servlet-name>
+        <url-pattern>/obtenerEstudiantes</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegistrarEstudiante</servlet-name>
+        <url-pattern>/RegistrarEstudiante</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ModificarEstudiante</servlet-name>
+        <url-pattern>/ModificarEstudiante</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EliminarEstudiante</servlet-name>
+        <url-pattern>/EliminarEstudiante</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CambiarContra</servlet-name>
+        <url-pattern>/CambiarContra</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CorreoRecuperar</servlet-name>
+        <url-pattern>/CorreoRecuperar</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Recontra</servlet-name>
+        <url-pattern>/Recontra</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
