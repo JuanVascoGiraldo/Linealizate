@@ -4,6 +4,7 @@ let expresioncontra = /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,40}$/;
 let expresionnombre = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ]+$/
 let expresiontextnumber = /^[a-zA-Z0-9àáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,\. \? \¿]+$/;
 let expresionlink = /^(https?|ftp):\/\/[^\\s/$.?#].[^\\s]*$/;
+let expresiondrive = /^https?:\/\/drive\.google\.com\/file\/d\/[\w-]+\/view\?usp=drive_link$/;
 
 var loading = "<script>"+
             "Swal.fire({"+
@@ -85,16 +86,26 @@ function validarboleta(boleta, msg){
 function validarlink(link){
     var validar = expresionlink.test(link);
     if (!validar) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'El link no es valido'
-        });
+        validar = expresiondrive.test(link);
+        if(!validar){
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'El link no es valido'
+            }); 
+        }else if(link.length >200 || link.length<10){
+                Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'El link no es valida'
+            });
+            validar = false
+        }
     }else if(link.length >200 || link.length<10){
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'La Boleta no es valida'
+            text: 'El link no es valida'
         });
         validar = false
     }
@@ -212,7 +223,7 @@ function CambiarContra(){
 
 function imputcheck(){
     let unidad= document.getElementById("unidad").value;
-    $.post('Temaunidad', {
+    $.post('GetTemas', {
         unidad
     }, function(responseText) {
             $('#cambiar1').html(responseText);
@@ -224,12 +235,14 @@ function Publicar(){
     let tipo =  document.getElementById("tipo").value;
     let unidad =  document.getElementById("unidad").value;
     let link =  document.getElementById("link").value; 
-    let bibliografia =  document.getElementById("bibliografia").value;
+    let bibliografia =  document.getElementById("Bibliografia").value;
     let temas = [];
+    let Strtemas = "";
     let checkboxes = document.querySelectorAll('input[type="checkbox"]');
     checkboxes.forEach(function(checkbox) {
         if (checkbox.checked) {
             temas.push(checkbox.value);
+            Strtemas += checkbox.value+",";
         }
     });
     if(temas.length ==0 ){
@@ -239,7 +252,18 @@ function Publicar(){
             text: 'Selecciona un tema'
         });
     }else if(validarTitulo(titulo) && validarBibliografia(bibliografia) && validarlink(link) && tipo!=0 && unidad!=0){
-        document.publicar.submit();
+        $('#notificacion').html(loading);
+
+        $.post('publicar', {
+            titulo,
+            bibliografia,
+            unidad,
+            link,
+            tipo,
+            temas: Strtemas
+        }, function(responseText) {
+                $('#notificacion').html(responseText);
+        });
     }
 }
 
@@ -321,6 +345,16 @@ function ObtenerEstudiante(){
     });
 }
 
+function FiltrarMat(tipo, unidad, tema){
+    $.post('GetMaterial', {
+        tipo,
+        unidad,
+        tema
+    }, function(responseText) {
+            $('#material').html(responseText);
+    });
+}
+
 
 function Cerrarsesion(){
     location.href = "./CerrarSesion";
@@ -377,8 +411,3 @@ function ResContraV(){
         });
     }
  }
-
-
-
-
-

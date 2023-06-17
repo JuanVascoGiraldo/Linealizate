@@ -74,6 +74,9 @@
       <li class="fa-solid fa-user" style="color: #FFF;"></li>
     </ul>
   </nav>
+    <div id="material">
+        
+    </div>
     <div class="main_container">
         <div class="mini_header2">
             <h2>Videos</h2>
@@ -91,6 +94,7 @@
         </div>
     </div>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./js/validar.js"></script>
 </div>
 </body>
 

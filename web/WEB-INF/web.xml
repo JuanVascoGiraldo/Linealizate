@@ -36,6 +36,18 @@
         <servlet-name>Recontra</servlet-name>
         <servlet-class>Servlets.Recontra</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>publicar</servlet-name>
+        <servlet-class>Servlets.publicar</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetTemas</servlet-name>
+        <servlet-class>Filtro.GetTemas</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetMaterial</servlet-name>
+        <servlet-class>Filtro.GetMaterial</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IniciarSesion</servlet-name>
         <url-pattern>/IniciarSesion</url-pattern>
@@ -71,6 +83,18 @@
     <servlet-mapping>
         <servlet-name>Recontra</servlet-name>
         <url-pattern>/Recontra</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>publicar</servlet-name>
+        <url-pattern>/publicar</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetTemas</servlet-name>
+        <url-pattern>/GetTemas</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetMaterial</servlet-name>
+        <url-pattern>/GetMaterial</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

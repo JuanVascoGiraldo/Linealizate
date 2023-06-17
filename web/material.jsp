@@ -101,32 +101,32 @@
             <h5>Tema </h5>
             <select class="select2" name="tema" id="tema" onchange="javascript:filtro()">
               <option disabled hidden value="0">Selecciona el tema de tu interes</option>
-              <option value="1">EliminaciÃ³n de Gauss y de Gauss-Gordan con pivoteo</option>
-              <option value="2">RepresentaciÃ³n matricial de un sistema de ecuaciones</option>
-              <option value="3">CÃ¡lculo de determinantes</option>
+              <option value="1">Eliminación de Gauss y de Gauss-Gordan con pivoteo</option>
+              <option value="2">Representación matricial de un sistema de ecuaciones</option>
+              <option value="3">Cálculo de determinantes</option>
               <option value="4">Inversa de una Matriz</option>
-              <option value="5">La inversa de una matriz a travÃ©s de su adjunta</option>
-              <option value="6">SoluciÃ³n de sistema de ecuaciones lineales</option>
-              <option value="7">Espacios vectoriales de distintos gÃ©neros</option>
-              <option value="8">Subespacios vectoriales de distintos gÃ©neros</option>
-              <option value="9">CombinaciÃ³nes lineales</option>
+              <option value="5">La inversa de una matriz a través de su adjunta</option>
+              <option value="6">Solución de sistema de ecuaciones lineales</option>
+              <option value="7">Espacios vectoriales de distintos géneros</option>
+              <option value="8">Subespacios vectoriales de distintos géneros</option>
+              <option value="9">Combinaciónes lineales</option>
               <option value="10">Espacio generado</option>
               <option value="11">Dependencia e independencia lineal</option>
               <option value="12">Bases de un Espacio Vectorial</option>
-              <option value="13">DimensiÃ³n de un Espacio Vectorial</option>
+              <option value="13">Dimensión de un Espacio Vectorial</option>
               <option value="14">Rango y Nulidad de una matriz</option>
               <option value="15">Matriz Cambio de Base</option>
-              <option value="16">Proceso de ortonormalizaciÃ³n de Gram-Schmid</option>
+              <option value="16">Proceso de ortonormalización de Gram-Schmid</option>
               <option value="17">Propiedades de las Transformaciones Lineales</option>
               <option value="18">Imagen y Kernel de una transformaciÃ³n lineal</option>
               <option value="19">Isomorfismos</option>
-              <option value="20">CÃ¡lculo de vectores caracteristicos</option>
-              <option value="21">DiagonalizaciÃ³n de matrices</option>
-              <option value="22">Matrices SimÃ©tricas y diagonalizaciÃ³n ortogonal</option>
-              <option value="23">Formas CuadrÃ¡ticas y secciones cÃ³nicas</option>
+              <option value="20">Cálculo de vectores caracteristicos</option>
+              <option value="21">Diagonalización de matrices</option>
+              <option value="22">Matrices Simétricas y diagonalización ortogonal</option>
+              <option value="23">Formas Cuadráticas y secciones cónicas</option>
               <option value="24">Aplicaciones a Ecuaciones diferenciales matriciales</option>
-              <option value="25">RepresentaciÃ³n matricial de una transformaciÃ³n lineal</option>
-              <option value="26">Sistema de ecuaciones lineales homogÃ©neas</option>
+              <option value="25">Representación matricial de una transformación lineal</option>
+              <option value="26">Sistema de ecuaciones lineales homogéneas</option>
             </select>
           </div>
         </div>

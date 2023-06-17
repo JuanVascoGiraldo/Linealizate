@@ -76,13 +76,13 @@
   <h3 class="header">Crear publicacion</h3>
   <div class="formContainer">
     <div class="content">
-      <form class="form" name="publicar"action="">
+      <form class="form" name="publicar" action="">
         <input class="input" type="text" name="Title" id="title" placeholder="Titulo">
         <br />
         <div class="inputContainer">
           <h5>Tipo de material: </h5>
           <select class="select" name="Tipo" id="tipo">
-            <option disabled hidden value="0">Selecciona el tipo de material</option>
+            <option disabled hidden value="0" selected>Selecciona el tipo de material</option>
             <option value="1">Video</option>
             <option value="2">Infografia</option>
             <option value="3">Ejemplo</option>
@@ -93,32 +93,15 @@
         <div class="inputContainer">
           <h5>Unidad: </h5>
           <select class="select" name="Unidad" id="unidad" onchange="javascript:imputcheck()">
-            <option disabled hidden value="0">Selecciona la unidad</option>
+              <option disabled hidden value="0" selected>Selecciona la unidad</option>
             <option value="1">Unidad 1</option>
             <option value="2">Unidad 2</option>
             <option value="3">Unidad 3</option>
+            <option value="4">Unidad 4</option>
           </select>
         </div>
         <div class="checkboxContainer" id="cambiar1">
-          <h5>Temas:</h5>
-          <div class="checkbox">
-            <div class="checkboxItem">
-              <input type="checkbox" name="tema" id="tema1" value="1">
-              <label for="tema1">Tema 1</label>
-            </div>
-            <div class="checkboxItem">
-              <input type="checkbox" name="tema" id="tema2" value="2">
-              <label for="tema1">Tema 2</label>
-            </div>
-            <div class="checkboxItem">
-              <input type="checkbox" name="tema" id="tema3" value="3">
-              <label for="tema1">Tema 3</label>
-            </div>
-            <div class="checkboxItem">
-              <input type="checkbox" name="tema" id="tema4" value="4">
-              <label for="tema1">Tema 4</label>
-            </div>
-          </div>
+
         </div>
         <br>
         <input class="input" type="url" name="link" id="link" placeholder="Link">
@@ -130,6 +113,12 @@
       </form>
     </div>
   </div>
+  <div id="notificacion">
+      
+  </div>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="./js/validar.js"></script>
+	<script src="./js/modal.js"></script>
 </body>
 
 </html>

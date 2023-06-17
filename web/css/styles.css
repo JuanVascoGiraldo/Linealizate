@@ -87,20 +87,6 @@ body {
   box-sizing: border-box;
 }
 
-.checkboxContainer {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-gap: 5px;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.checkbox {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-gap: 10px;
-  justify-content: space-around;
-}
 
 .button {
   width: 100%;

@@ -9,11 +9,13 @@ public class Validacion {
     private static final String ExpCorreo = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
     private static final String Expnombre = "^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ]+$";
     private static final String ExpContra = "^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,40}$";
-    private static final String Exptexto = "^[a-zA-Z0-9àáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑ \\? \\¿,\\.[\\]()]+$";
+    private static final String Exptexto = "^[a-zA-Z0-9àáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑ \\\\? \\\\¿,\\\\.]+$";
     private static final String ExpFechapre = "^(?:3[01]|[12][0-9]|0?[1-9])([\\-/.])(0?[1-9]|1[1-2])\\1\\d{4}$";
-    private static final String ExpFiltro = "^\\d{2}$";
+    private static final String ExpFiltro = "^\\d+$";
+    private static final String ExpFiltro2 = "^\\d{1}$";
     private static final String ExpBoleta = "^\\d{10}$";
     private static final String ExpLink = "^(https?|ftp):\\/\\/[^\\s/$.?#].[^\\s]*$";
+    private static final String Expdrive = "^https?:\\/\\/drive\\.google\\.com\\/file\\/d\\/[\\w-]+\\/view\\?usp=drive_link$";
     
     
     public static boolean Validarcorreo(String correo){
@@ -55,13 +57,8 @@ public class Validacion {
     public static boolean ValidarBoleta(String boleta){
         Pattern pattern = Pattern.compile(ExpBoleta);
         Matcher matcher = pattern.matcher(boleta);
-        if(matcher.matches()){
-               return true;
-        }else{
-            return false;
-        }
+        return matcher.matches();
     }
-    
     public static boolean ValidarTitulo(String titulo){
         Pattern pattern = Pattern.compile(Exptexto);
         Matcher matcher = pattern.matcher(titulo);
@@ -79,13 +76,15 @@ public class Validacion {
     public static boolean ValidarLink(String link){
         Pattern pattern = Pattern.compile(ExpLink);
         Matcher matcher = pattern.matcher(link);
-        if(matcher.matches()){
+        Pattern pattern2 = Pattern.compile(Expdrive);
+        Matcher matcher2 = pattern2.matcher(link);
+        if(matcher.matches() || matcher2.matches()){
            if(link.length() > 200 || link.length() < 10){
                return false;
            }else{
                return true;
            }
-        }else{
+        }else {
             return false;
         }
     }
@@ -116,5 +115,29 @@ public class Validacion {
         }else{
             return false;
         }
+    }
+
+    public static boolean ValidarUnidadyTipo(String unidad) {
+       Pattern pattern = Pattern.compile(ExpFiltro2);
+       Matcher matcher = pattern.matcher(unidad);
+       return matcher.matches();
+    }
+
+    public static boolean ValidarTema(String tema) {
+        Pattern pattern = Pattern.compile(ExpFiltro);
+       Matcher matcher = pattern.matcher(tema);
+       return matcher.matches();
+    }
+    
+    public static String Cambiarlink(String link){
+        String[] str = link.split("youtube");
+        String newlink = "";
+        if(str.length != 1){
+            newlink = link.replace("watch?v=", "embed/");
+        
+        }else{
+            newlink = link.replace("view?usp=drive_link", "preview");
+        }
+        return newlink;
     }
 }

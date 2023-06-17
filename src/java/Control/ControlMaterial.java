@@ -5,6 +5,7 @@ import Modelo.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -26,7 +27,7 @@ public class ControlMaterial {
             ps = con.prepareStatement(sql);
             ps.setInt(1, unidad);
             rs = ps.executeQuery();
-            if(rs.next()){
+            while(rs.next()){
                 Catalogo ob = new Catalogo();
                 ob.setDes(rs.getString("nom_tema"));
                 ob.setId(rs.getInt("id_tema"));
@@ -122,7 +123,7 @@ public class ControlMaterial {
     
     public static boolean AgregarTemaMat(Connection con, List<Catalogo> temas, int id_mat ){
         boolean resultado = false;
-        if(temas.isEmpty())return true;
+        if(temas.isEmpty())return false;
         PreparedStatement ps = null;
         try{
             String sql = "insert into ETemaMaterial (id_material, id_tema) values ("+id_mat+",?)";
@@ -145,7 +146,7 @@ public class ControlMaterial {
                 ps.close();
             }
             catch(Exception error){
-                System.out.println("Error a cerrar la conexion");
+                System.out.println("Error a cerrar la conexionn");
                 System.out.println(error);
             }
         }
@@ -201,7 +202,7 @@ public class ControlMaterial {
         try{
             con = ConexionBD.getConnection();
             String sql = "insert into MMaterial (titulo_publi, link_publi, bibliografia_publi, estado, id_tipo, id_usu) values (?,?,?,?,?,?)";
-            ps = con.prepareStatement(sql);
+            ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, mat.getTitulo());
             ps.setString(2, mat.getLink());
             ps.setString(3, mat.getBibliografia());
@@ -209,11 +210,18 @@ public class ControlMaterial {
             ps.setInt(6, mat.getUsu());
             ps.setInt(5, mat.getTipo());
             int estado = ps.executeUpdate();
-            if(estado>1){
+            if(estado>0){
                 rs = ps.getGeneratedKeys();
                 if(rs.next()){
                     int id = rs.getInt(1);
                     resultado = AgregarTemaMat(con, mat.getTemas(), id );
+                    if(!resultado){
+                        sql = "delete from mmaterial where id_material = ?";
+                        ps = con.prepareStatement(sql);
+                        ps.setInt(1, id);
+                        estado = ps.executeUpdate();
+                        resultado = false;
+                    }
                 }
             }
         }catch(Exception e){
@@ -226,8 +234,8 @@ public class ControlMaterial {
                 rs.close();
             }
             catch(Exception error){
-                System.out.println("Error a cerrar la conexion");
-                System.out.println(error);
+                System.out.println("Error a cerrar la conexionn");
+                System.out.println(error.getMessage());
             }
         }
         return resultado;
