@@ -92,7 +92,7 @@
         </div>
         <div class="inputContainer">
           <h5>Unidad: </h5>
-          <select class="select" name="Unidad" id="unidad" onchange="javascript:imputcheck()">
+          <select class="select" name="Unidad" id="unidad" onchange="javascript:imputcheck(1)">
               <option disabled hidden value="0" selected>Selecciona la unidad</option>
             <option value="1">Unidad 1</option>
             <option value="2">Unidad 2</option>

@@ -97,9 +97,16 @@ public class ControlMaterial {
         ResultSet rs = null;
         try{
             con = ConexionBD.getConnection();
-            String sql = "select id_material, titulo_publi, id_tipo, estado, link_publi,  bibliografia_publi from MMaterial where id_usu = ?";
-            ps = con.prepareCall(sql);
-            ps.setInt(1, id);
+            String sql = "";
+            if(id!=1){
+                sql = "select id_material, titulo_publi, id_tipo, estado, link_publi,  bibliografia_publi from MMaterial where id_usu = ?";
+                ps = con.prepareCall(sql);
+                ps.setInt(1, id);
+            }else{
+                sql = "select id_material, titulo_publi, id_tipo, estado, link_publi,  bibliografia_publi from MMaterial";
+                ps = con.prepareCall(sql);
+            }
+            
             rs = ps.executeQuery();
             while(rs.next()){
                 Material mat = new Material();
@@ -140,10 +147,11 @@ public class ControlMaterial {
             ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             rs = ps.executeQuery();
-            if(rs.next()){
+            while(rs.next()){
                 Catalogo ob = new Catalogo();
                 ob.setDes(rs.getString("CTema.nom_tema"));
                 ob.setId(rs.getInt("CTema.id_tema"));
+                ob.setUnidad(rs.getInt("CTema.id_unidad"));
                 temas.add(ob);
             }
         
@@ -164,7 +172,7 @@ public class ControlMaterial {
     
     public static boolean AgregarTemaMat(Connection con, List<Catalogo> temas, int id_mat ){
         boolean resultado = false;
-        if(temas.isEmpty())return false;
+        if(temas.isEmpty())return true;
         PreparedStatement ps = null;
         try{
             String sql = "insert into ETemaMaterial (id_material, id_tema) values ("+id_mat+",?)";
@@ -396,15 +404,27 @@ public class ControlMaterial {
                 List<Catalogo> temas = ObtenerTemaMaterial( id, con);
                 List<Catalogo> temasnuevo = mat.getTemas();
                 List<Catalogo> eliminar = new ArrayList<>();
+                int i=0, j=0;
                 if(result && !temas.equals(temasnuevo)){
                     //ver que temas siguen y cuales son nuevas.
-                    temas.forEach((ca) -> {
-                        if(temasnuevo.contains(ca)){
-                            temasnuevo.remove(ca);
+                    for (Catalogo ca : temas){
+                        i=-1;
+                        j=0;
+                        for(Catalogo viejo: temasnuevo){
+                            if(viejo.getId()== ca.getId()){
+                                i=j;
+                                break;
+                            }
+                            j++;
+                        }
+                        if(i!=-1){
+                            temasnuevo.remove(i);
                         }else{
                             eliminar.add(ca);
                         }
-                    });
+                    }
+                    System.out.println(temasnuevo.size());
+                    System.out.println(eliminar.size());
                     resultado = AgregarTemaMat(con, temasnuevo, id) && EliminarTemaMat(con, eliminar, id);
                 }else if(!result){
                     resultado = false;

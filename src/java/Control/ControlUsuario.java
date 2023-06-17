@@ -304,7 +304,7 @@ public class ControlUsuario {
         PreparedStatement ps = null;
         try{
             con = ConexionBD.getConnection();
-            String sql = "DELETE FROM usuarios WHERE rol_usu = 3;";
+            String sql = "DELETE FROM MUsuario WHERE rol_usu = 3;";
             ps = con.prepareStatement(sql);
             int estado = ps.executeUpdate();
             if(estado>0){

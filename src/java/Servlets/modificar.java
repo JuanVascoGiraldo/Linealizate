@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Servlets;
 
 import Control.Cifrado;
@@ -22,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
-public class publicar extends HttpServlet {
+public class modificar extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,6 +34,7 @@ public class publicar extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             try{
+                String idM = request.getParameter("id");
                 String titulo = request.getParameter("titulo");
                 String bibliografia = request.getParameter("bibliografia");
                 String unidad = request.getParameter("unidad");
@@ -49,7 +46,7 @@ public class publicar extends HttpServlet {
                 if(sesion.getAttribute("usuario")!= null){
                      Usuario usu = (Usuario)sesion.getAttribute("usuario");
                     int id_rol = Integer.valueOf(Cifrado.decrypt(usu.getRol_cifrado()));
-                    if(id_rol==2){
+                    if(id_rol==2 || id_rol ==1){
                         String[] temSt;
                         temSt = StrTema.split(",");
                         boolean seguir = true;
@@ -64,25 +61,26 @@ public class publicar extends HttpServlet {
                         }
                         if(Validacion.ValidarTitulo(titulo) && Validacion.ValidarBibliografia(bibliografia)
                                 && Validacion.ValidarUnidadyTipo(unidad) && Validacion.ValidarLink(link)
-                                && Validacion.ValidarUnidadyTipo(tipo)&&seguir && !temas.isEmpty()){
+                                && Validacion.ValidarUnidadyTipo(tipo)&&seguir && !temas.isEmpty() &&idM!= null){
                             Material mat = new Material();
                             mat.setBibliografia(bibliografia);
                             mat.setLink(link);
                             mat.setTemas(temas);
                             mat.setTipo(Integer.valueOf(tipo));
                             mat.setTitulo(titulo);
-                            mat.setUsu(Integer.valueOf(Cifrado.decrypt(usu.getId_cifrado())));
-                            boolean seguirM= ControlMaterial.AgregarMaterial(mat);
+                            mat.setId_cifrado(idM);
+                            boolean seguirM= ControlMaterial.ModificarMaterial(mat);
                             if(seguirM){
                                 out.println("<script>");
                                     out.println("Swal.fire({");
                                         out.println("icon: 'success',");
                                         out.println("title: 'Correcto',");
-                                        out.println("text: 'Se ha creado la publicacion'");
+                                        out.println("text: 'Se ha modificado'");
                                     out.println(" });");
                                     out.println("setTimeout(function() {");
-                                         out.println("location.href = './publicaciones.jsp' ");
-                                     out.println("}, 1500);");
+                                         if(id_rol==2)out.println("location.href = './publicaciones.jsp' ");
+                                         if(id_rol==1)out.println("location.href = './adminpublicaciones.jsp' ");
+                                     out.println("}, 1000);");
                                 out.println("</script>");
                             
                             }else{

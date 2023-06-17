@@ -36,8 +36,9 @@ public class Material extends HttpServlet {
                 if(sesion.getAttribute("usuario")!= null){
                     Usuario usu = (Usuario)sesion.getAttribute("usuario");
                     int id_rol = Integer.valueOf(Cifrado.decrypt(usu.getRol_cifrado()));
-                    if(id_rol ==3 || id_rol==1){
-                        List<Modelo.Material> mats = ControlMaterial.ObtenerMaterialAdmin(id_rol);
+                    if(id_rol ==2 || id_rol==1){
+                        int ide = Integer.valueOf(Cifrado.decrypt(usu.getId_cifrado()));
+                        List<Modelo.Material> mats = ControlMaterial.ObtenerMaterialAdmin(ide);
                         /*
                             <div class="main_container">
                                 <div class="mini_header2">
@@ -56,26 +57,31 @@ public class Material extends HttpServlet {
                                 </div>
                             </div>
                         */
-                        
+                        int tipp = id_rol;
                        mats.forEach((Modelo.Material mat)->{
                             String palabra = "";
+                            String tipo = (mat.getEstado()==1)?"mini_header2":"mini_header3";
+                            String tipo2 = (mat.getEstado()==1)?"cs":"cs2";
                             palabra=(1==mat.getEstado())?"Desactivar": "Activar";
                             out.println("<div class=\"main_container\">");
-                                out.println("<div class=\"mini_header2\">");
-                                    out.println("<h2>"+mat.getTipo()+"</h2>");
-                                    out.println("<h2>"+mat.getTemas().get(0).getUnidad()+"/h2>");
+                                out.println("<div class=\""+tipo+"\">");
+                                    out.println("<h2>"+Validacion.CambiarTipo(mat.getTipo())+"</h2>");
+                                    out.println("<h2> Unidad "+mat.getTemas().get(0).getUnidad()+"</h2>");
                                 out.println("</div>");
                                 out.println("<div class=\"pregunta\">");
-                                    out.println("<h3>"+mat.getTitulo()+"</h3>");
+                                    out.println("<h3> Titulo: "+mat.getTitulo()+"</h3>");
+                                    out.println("<h6>Temas:</h6>"); 
                                     for(Catalogo tem: mat.getTemas()){
                                        out.println("<h6>"+tem.getDes()+"</h6>"); 
                                     }
+                                    out.println("<h6>Link:</h6>"); 
                                     out.println("<h5>"+mat.getLink()+"</h5>");
+                                    out.println("<h6>Bibliografía:</h6>"); 
                                     out.println("<h5>"+mat.getBibliografia()+"</h5>");
                                 out.println("</div>");
                                 out.println("<div class=\"flex\">");
-                                    out.println("<button class=\"question\" onclick=\"Modificar('"+mat.getId_cifrado()+"')\">Modificar</button>");
-                                    out.println("<button class=\"cs\" onclick=\"Estado('"+mat.getId_cifrado()+"')\">"+palabra+"</button>");
+                                    out.println("<button class=\"question\" onclick=\"Modificar('"+mat.getId_cifrado()+"',"+tipp+")\">Modificar</button>");
+                                    out.println("<button class=\""+tipo2+"\" onclick=\"Estado('"+mat.getId_cifrado()+"')\">"+palabra+"</button>");
                                 out.println("</div>");
                             out.println("</div>");
                        });

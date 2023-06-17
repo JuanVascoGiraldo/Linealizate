@@ -1,3 +1,7 @@
+<%@page import="Modelo.Catalogo"%>
+<%@page import="java.util.List"%>
+<%@page import="Modelo.Material"%>
+<%@page import="Control.ControlMaterial"%>
 <%@page import="Modelo.Usuario"%>
 <%@page import="Control.Cifrado"%>
 <%@page contentType="text/html" pageEncoding="UTF-8" session="true" language="java"%>
@@ -29,6 +33,27 @@
         </jsp:forward>
 <%
     }
+    String idS = "";
+    if(request.getParameter("id")== null){
+        response.sendRedirect("./publicaciones.jsp");
+    }else{
+        idS = request.getParameter("id");
+    }
+    Material mat = new Material();
+    try{
+        mat = ControlMaterial.ConsultarMaterial(idS);
+        if(mat.getEstado() == -1){
+            throw new Exception("id invalido");
+        }
+    }catch(Exception e){
+        System.out.println(e.getMessage());
+%> 
+        <jsp:forward page="publicaciones.jsp">
+            <jsp:param name="Error" value="identificador no valido" />
+        </jsp:forward>
+<%
+    }
+    
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,59 +102,68 @@
   <div class="formContainer">
     <div class="content">
       <form class="form" name="modificar" action="">
-        <input class="input" type="text" name="Title" id="title" placeholder="Titulo">
+        <input class="input" type="text" name="Title" id="title" placeholder="Titulo" value="<%=mat.getTitulo() %>">
         <br />
         <div class="inputContainer">
           <h5>Tipo de material: </h5>
           <select class="select" name="Tipo" id="tipo">
-            <option disabled hidden value="0">Selecciona el tipo de material</option>
-            <option value="1">Video</option>
-            <option value="2">Infografia</option>
-            <option value="3">Ejemplo</option>
-            <option value="4">Examenes</option>
-            <option value="5">Listas</option>
+            <option value="1" <%if(mat.getTipo()==1){%>selected<%}%>>Video</option>
+            <option value="2" <%if(mat.getTipo()==2){%>selected<%}%>>Infografia</option>
+            <option value="3" <%if(mat.getTipo()==3){%>selected<%}%>>Ejemplo</option>
+            <option value="4" <%if(mat.getTipo()==4){%>selected<%}%>>Examenes</option>
+            <option value="5" <%if(mat.getTipo()==5){%>selected<%}%>>Listas</option>
           </select>
         </div>
         <div class="inputContainer">
           <h5>Unidad: </h5>
-          <select class="select" name="Unidad" id="unidad" onchange="javascript:imputcheck()">
-            <option disabled hidden value="0">Selecciona la unidad</option>
-            <option value="1">Unidad 1</option>
-            <option value="2">Unidad 2</option>
-            <option value="3">Unidad 3</option>
+           <select class="select" name="Unidad" id="unidad" onchange="javascript:imputcheck(2)">
+                <option value="1" <%if(mat.getTemas().get(0).getUnidad()==1){%>selected<%}%>>Unidad 1</option>
+                <option value="2" <%if(mat.getTemas().get(0).getUnidad()==2){%>selected<%}%>>Unidad 2</option>
+                <option value="3" <%if(mat.getTemas().get(0).getUnidad()==3){%>selected<%}%>>Unidad 3</option>
+                <option value="4" <%if(mat.getTemas().get(0).getUnidad()==4){%>selected<%}%>>Unidad 4</option>
           </select>
         </div>
         <div class="checkboxContainer" id="cambiar1">
-          <h5>Temas:</h5>
-          <div class="checkbox">
-            <div class="checkboxItem">
-              <input type="checkbox" name="tema" id="tema1" value="1">
-              <label for="tema1">Tema 1</label>
-            </div>
-            <div class="checkboxItem">
-              <input type="checkbox" name="tema" id="tema2" value="2">
-              <label for="tema1">Tema 2</label>
-            </div>
-            <div class="checkboxItem">
-              <input type="checkbox" name="tema" id="tema3" value="3">
-              <label for="tema1">Tema 3</label>
-            </div>
-            <div class="checkboxItem">
-              <input type="checkbox" name="tema" id="tema4" value="4">
-              <label for="tema1">Tema 4</label>
-            </div>
-          </div>
+          
         </div>
         <br>
-        <input class="input" type="url" name="link" id="link" placeholder="Link">
-        <input class="input" type="text" placeholder="Bibliografia">
+        <input class="input" type="url" name="link" id="link" placeholder="Link" value="<%=mat.getLink() %>">
+        <input class="input" type="text" placeholder="Bibliografia" id="Bibliografia"value="<%=mat.getBibliografia() %>">
         <br>
         <div class="buttonContainer">
-          <button class="button" type="button" onclick="Modificarpublicacion()">Moficar</button>
+          <button class="button" type="button" onclick="Modificarpublicacion('<%=idS%>')">Modificar</button>
         </div>
       </form>
     </div>
   </div>
+        <div id="notificacion">
+            
+        </div>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="./js/validar.js"></script>
+	<script src="./js/modal.js"></script>
+        <script>
+            function seleccionarTemas(){
+               let temas = [];
+               <%
+                   List<Catalogo> tem = mat.getTemas();
+                   for(Catalogo t: tem){
+                   %>
+                          temas.push(<%=t.getId()%>);
+                   <%
+                   };
+               %>
+                let checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(function(checkbox) {
+                    if (temas.includes(parseInt(checkbox.value))) {
+                       checkbox.checked = true;
+                    }
+                });
+            }
+            setTimeout(function() {
+                imputcheck(2);
+            }, 2000);
+        </script>
 </body>
 
 </html>

@@ -51,7 +51,7 @@ public class CambiarEstado extends HttpServlet {
                                     out.println(" });");
                                     out.println("setTimeout(function() {");
                                          out.println("ObtenerMat(); ");
-                                     out.println("}, 2000);");
+                                     out.println("}, 1500);");
                                 out.println("</script>");
                             }else{
                                 out.println("<script>");

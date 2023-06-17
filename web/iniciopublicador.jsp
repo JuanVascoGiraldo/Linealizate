@@ -75,6 +75,7 @@
   </nav>
   
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./js/validar.js"></script>
 </div>
 </body>
 

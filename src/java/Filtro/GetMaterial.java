@@ -46,7 +46,28 @@ public class GetMaterial extends HttpServlet {
                                 && Validacion.ValidarTema(tema)){
                             
                             List<Material> matr = ControlMaterial.ObtenerMaterialEstudiante();
-                            
+                            /*
+                                 <div class="main_container">
+                                    <div class="mini_header">
+                                      &nbsp;
+                                      &nbsp;<h2>Videos</h2>
+                                        <h2>Unidad</h2>
+                                        &nbsp;
+                                        &nbsp;
+                                    </div>
+                                    <div class="titulomat">
+                                        <h3>Calculo de determinantes</h3>
+                                        <br>
+                                        <h2>tema 1</h2>
+                                        <br>
+                                        <h2>tema 2</h2>
+                                    </div>
+                                    <div class="varmat">
+                                        <a href="./vermaterial.html" class="ira">Ver material</a>
+                                    </div>
+                                    <br>
+                                </div>
+                                */
                            
                             
                             

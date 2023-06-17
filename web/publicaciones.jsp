@@ -86,7 +86,6 @@
     <script>
          ObtenerMat();
     </script>
-</div>
 </body>
 
 </html>

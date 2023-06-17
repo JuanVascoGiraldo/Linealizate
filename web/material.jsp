@@ -79,7 +79,7 @@
         <div class="inputContainer">
           <h5>Tipo de material: </h5>
           <select class="select" name="Tipo" id="tipo" onchange="javascript:filtro()">
-            <option disabled hidden value="0">Selecciona el tipo de material</option>
+            <option value="0">Todos</option>
             <option value="1">Video</option>
             <option value="2">Infografia</option>
             <option value="3">Ejemplo</option>
@@ -90,7 +90,7 @@
         <div class="inputContainer">
           <h5>Unidad: </h5>
           <select class="select2" name="Unidad" id="unidad" onchange="javascript:unidad()">
-            <option disabled hidden value="0">Selecciona la unidad</option>
+            <option value="0">Todos</option>
             <option value="1">Unidad 1</option>
             <option value="2">Unidad 2</option>
             <option value="3">Unidad 3</option>
@@ -100,7 +100,7 @@
           <div class="inputContainer">
             <h5>Tema </h5>
             <select class="select2" name="tema" id="tema" onchange="javascript:filtro()">
-              <option disabled hidden value="0">Selecciona el tema de tu interes</option>
+              <option value="0">Todos</option>
               <option value="1">Eliminación de Gauss y de Gauss-Gordan con pivoteo</option>
               <option value="2">Representación matricial de un sistema de ecuaciones</option>
               <option value="3">Cálculo de determinantes</option>

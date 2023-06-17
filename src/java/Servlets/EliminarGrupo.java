@@ -1,30 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Filtro;
+
+package Servlets;
 
 import Control.Cifrado;
-import Control.ControlMaterial;
-import Control.Validacion;
-import Modelo.Catalogo;
+import Control.ControlUsuario;
 import Modelo.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author Juanv
- */
-public class GetTemas extends HttpServlet {
+public class EliminarGrupo extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,59 +28,36 @@ public class GetTemas extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             try{
-                String unidad = request.getParameter("unidad");
                 HttpSession sesion = request.getSession(true);
                 if(sesion.getAttribute("usuario")!= null){
                     Usuario usu = (Usuario)sesion.getAttribute("usuario");
                     int id_rol = Integer.valueOf(Cifrado.decrypt(usu.getRol_cifrado()));
-                    if(id_rol==2 || id_rol == 1){
-                        if(Validacion.ValidarUnidadyTipo(unidad)){
-                            int uni = Integer.valueOf(unidad);
-                            List<Catalogo> temas = new ArrayList<>();
-                            temas = ControlMaterial.ObtenerTemas(uni);
-                            if(!temas.isEmpty()){
-                                out.println("<h5>Temas:</h5>");
-                                    out.println("<div class=\"checkbox\">");
-                                    temas.forEach((tem)->{
-                                                out.println("<div class=\"checkboxItem\">");
-                                                    out.println("<input type=\"checkbox\" name=\"tema\" id=\""+tem.getId()+"\" value=\""+tem.getId()+"\">");
-                                                    out.println("<label for=\"tema1\">"+tem.getDes()+"</label>");
-                                                out.println("</div>");
-                                    });
-                                out.println("</div>");  
+                    if(id_rol==1){//Admin
+                        boolean Eliminar = ControlUsuario.EliminarGrupo();
+                        if(Eliminar){
+                                out.println("<script>");
+                                    out.println("Swal.fire({");
+                                        out.println("icon: 'success',");
+                                        out.println("title: 'Correcto',");
+                                        out.println("text: 'Se ha Eliminado el grupo'");
+                                    out.println(" });");
+                                out.println("</script>");
                             }else{
                                 out.println("<script>");
                                     out.println("Swal.fire({");
-                                          out.println("icon: 'error',");
-                                         out.println("title: 'Oops...',");
-                                         out.println("text: 'Unidad no valida'");
+                                        out.println("icon: 'error',");
+                                        out.println("title: 'Ups ....',");
+                                        out.println("text: 'El usuario no se ha encontrado'");
                                     out.println(" });");
                                 out.println("</script>");
-                            
                             }
-                            
-                        }else{
-                            out.println("<script>");
-                                out.println("Swal.fire({");
-                                      out.println("icon: 'error',");
-                                     out.println("title: 'Oops...',");
-                                     out.println("text: 'Solo ingresa caracteres validos'");
-                                out.println(" });");
-                            out.println("</script>");
-                        
-                        }
                     }else{
-                        out.println("<script>");
-                            out.println("location.href = './index.jsp'");
-                        out.println("</script>");
                     
+                        out.println("<script>location.href = './index.jsp'");
                     }
                 }else{
-                    out.println("<script>");
-                        out.println("location.href = './index.jsp'");
-                    out.println("</script>");
+                    out.println("<script>location.href = './index.jsp'");
                 }
-               
             }catch(Exception e){
                 System.out.println(e.getMessage());
                 out.println("<script>");

@@ -221,13 +221,18 @@ function CambiarContra(){
     }
 }
 
-function imputcheck(){
+function imputcheck(tipo){
     let unidad= document.getElementById("unidad").value;
     $.post('GetTemas', {
         unidad
     }, function(responseText) {
             $('#cambiar1').html(responseText);
     });
+    setTimeout(function() {
+            if(tipo == 2){
+                seleccionarTemas();
+            }
+        }, 500);
 }
 
 function Publicar(){
@@ -267,17 +272,19 @@ function Publicar(){
     }
 }
 
-function Modificarpublicacion(){
+function Modificarpublicacion(id){
     let titulo =  document.getElementById("title").value;
     let tipo =  document.getElementById("tipo").value;
     let unidad =  document.getElementById("unidad").value;
     let link =  document.getElementById("link").value; 
-    let bibliografia =  document.getElementById("bibliografia").value;
+    let bibliografia =  document.getElementById("Bibliografia").value;
     let temas = [];
+    let Strtemas = "";
     let checkboxes = document.querySelectorAll('input[type="checkbox"]');
     checkboxes.forEach(function(checkbox) {
         if (checkbox.checked) {
             temas.push(checkbox.value);
+            Strtemas += checkbox.value+",";
         }
     });
     if(temas.length ==0 ){
@@ -287,7 +294,19 @@ function Modificarpublicacion(){
             text: 'Selecciona un tema'
         });
     }else if(validarTitulo(titulo) && validarBibliografia(bibliografia) && validarlink(link) && tipo!=0 && unidad!=0){
-        document.modificar.submit();
+        $('#notificacion').html(loading);
+
+        $.post('modificar', {
+            id,
+            titulo,
+            bibliografia,
+            unidad,
+            link,
+            tipo,
+            temas: Strtemas
+        }, function(responseText) {
+                $('#notificacion').html(responseText);
+        });
     }
 }
 
@@ -428,3 +447,30 @@ function ResContraV(){
         });
     }
  }
+ 
+ function Modificar(id, tip){
+     let encodedValor = encodeURIComponent(id);
+     if(tip==1){
+         location.href = "./adminmodificarpublicacion.jsp?id="+encodedValor;
+     }else{
+         location.href = "./modificarpublicacion.jsp?id="+encodedValor;
+     }
+     
+     
+ }
+ 
+ function EliminarGrupo(){
+    crm();
+    $('#notificacion').html(loading);
+    let ide = document.getElementById("idE").value;
+    $.post('EliminarGrupo', {
+            msg: 'where idrol = ASDqWcasd=1as!'
+        }, function(responseText) {
+                $('#notificacion').html(responseText);
+        });
+    setTimeout(function() {
+            ObtenerEstudiante();
+        }, 2000);
+ }
+ 
+ 

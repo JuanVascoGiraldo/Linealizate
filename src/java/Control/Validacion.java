@@ -140,4 +140,26 @@ public class Validacion {
         }
         return newlink;
     }
+    
+    public static String CambiarTipo(int tipo){
+        
+        if(tipo == 1){
+            return "Video";
+        }
+        
+        if(tipo == 2){
+            return "Infografía";
+        }
+        
+        if(tipo == 3){
+            return "Ejemplos";
+        }
+        
+        if(tipo == 4){
+            return "Exámene";
+        }
+        
+        return "Lista";
+    
+    }
 }

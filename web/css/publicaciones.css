@@ -38,6 +38,19 @@
     font-weight: bold;
 }
 
+.mini_header3 {
+    background-color: #941414;
+    text-align: center;
+    margin-top: 0;
+    border-radius: 5px 5px 0 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    color: white;
+    font-weight: bold;
+}
+
 h2,
 h3 {
     padding: 15px;
@@ -80,6 +93,18 @@ h3 {
     font-size: 1.35rem;
     transition: all .15s linear
 }
+
+.cs2 {
+    background-color: #146C94;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin: 10px;
+    border: 1px solid #146C94;
+    font-size: 1.35rem;
+    transition: all .15s linear
+}
+
 
 .cs:hover {
     background-color: #e98888;
