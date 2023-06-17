@@ -5,11 +5,9 @@ import Control.Cifrado;
 import Control.ControlMaterial;
 import Control.Validacion;
 import Modelo.Catalogo;
-import Modelo.Material;
 import Modelo.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
-public class GetMaterial extends HttpServlet {
+public class Material extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,33 +31,56 @@ public class GetMaterial extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            try{
-                String unidad = request.getParameter("unidad");
-                String tema = request.getParameter("tema");
-                String tipo = request.getParameter("tipo");
+             try{
                 HttpSession sesion = request.getSession(true);
                 if(sesion.getAttribute("usuario")!= null){
                     Usuario usu = (Usuario)sesion.getAttribute("usuario");
                     int id_rol = Integer.valueOf(Cifrado.decrypt(usu.getRol_cifrado()));
-                    if(id_rol ==3){
-                        if(Validacion.ValidarUnidadyTipo(unidad) && Validacion.ValidarUnidadyTipo(tipo)
-                                && Validacion.ValidarTema(tema)){
-                            
-                            List<Material> matr = ControlMaterial.ObtenerMaterialEstudiante();
-                            
-                           
-                            
-                            
-                        }else{
-                            out.println("<script>");
-                                out.println("Swal.fire({");
-                                      out.println("icon: 'error',");
-                                     out.println("title: 'Oops...',");
-                                     out.println("text: 'Solo ingresa caracteres validos'");
-                                out.println(" });");
-                            out.println("</script>");
+                    if(id_rol ==3 || id_rol==1){
+                        List<Modelo.Material> mats = ControlMaterial.ObtenerMaterialAdmin(id_rol);
+                        /*
+                            <div class="main_container">
+                                <div class="mini_header2">
+                                    <h2>Videos</h2>
+                                    <h2>Unidad</h2>
+                                </div>
+                                <div class="pregunta">
+                                    <h3>Calculo de determinantes</h3>
+                                    <h5>tema 1, tema 2, tema 3</h5>
+                                    <h5>link</h5>
+                                    <h5>bibliografia</h5>
+                                </div>
+                                <div class="flex">
+                                    <button class="question" onclick="">Modificar</button>
+                                    <button class="cs" onclick="">Desactivar</button>
+                                </div>
+                            </div>
+                        */
                         
-                        }
+                       mats.forEach((Modelo.Material mat)->{
+                            String palabra = "";
+                            palabra=(1==mat.getEstado())?"Desactivar": "Activar";
+                            out.println("<div class=\"main_container\">");
+                                out.println("<div class=\"mini_header2\">");
+                                    out.println("<h2>"+mat.getTipo()+"</h2>");
+                                    out.println("<h2>"+mat.getTemas().get(0).getUnidad()+"/h2>");
+                                out.println("</div>");
+                                out.println("<div class=\"pregunta\">");
+                                    out.println("<h3>"+mat.getTitulo()+"</h3>");
+                                    for(Catalogo tem: mat.getTemas()){
+                                       out.println("<h6>"+tem.getDes()+"</h6>"); 
+                                    }
+                                    out.println("<h5>"+mat.getLink()+"</h5>");
+                                    out.println("<h5>"+mat.getBibliografia()+"</h5>");
+                                out.println("</div>");
+                                out.println("<div class=\"flex\">");
+                                    out.println("<button class=\"question\" onclick=\"Modificar('"+mat.getId_cifrado()+"')\">Modificar</button>");
+                                    out.println("<button class=\"cs\" onclick=\"Estado('"+mat.getId_cifrado()+"')\">"+palabra+"</button>");
+                                out.println("</div>");
+                            out.println("</div>");
+                       });
+                       
+                       
                     }else{
                         out.println("<script>");
                             out.println("location.href = './index.jsp'");

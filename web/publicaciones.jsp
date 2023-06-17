@@ -77,24 +77,15 @@
     <div id="material">
         
     </div>
-    <div class="main_container">
-        <div class="mini_header2">
-            <h2>Videos</h2>
-            <h2>Unidad</h2>
-        </div>
-        <div class="pregunta">
-            <h3>Calculo de determinantes</h3>
-            <h5>tema 1, tema 2, tema 3</h5>
-            <h5>link</h5>
-            <h5>bibliografia</h5>
-        </div>
-        <div class="flex">
-            <button class="question" onclick="responder('<%=pre.getId_pre() %>')">Modificar</button>
-            <button class="cs" onclick="rechazar('<%=pre.getId_pre() %>')">Desactivar</button>
-        </div>
+    <div id="notificacion">
+        
     </div>
+    
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./js/validar.js"></script>
+    <script>
+         ObtenerMat();
+    </script>
 </div>
 </body>
 

@@ -355,6 +355,23 @@ function FiltrarMat(tipo, unidad, tema){
     });
 }
 
+function ObtenerMat(){
+    $.post('Material', {
+        msg:"go"
+    }, function(responseText) {
+            $('#material').html(responseText);
+    });
+}
+
+function Estado(id){
+    $('#notificacion').html(loading);
+    $.post('CambiarEstado', {
+        id
+    }, function(responseText) {
+            $('#notificacion').html(responseText);
+    });
+    
+}
 
 function Cerrarsesion(){
     location.href = "./CerrarSesion";

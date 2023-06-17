@@ -48,6 +48,14 @@
         <servlet-name>GetMaterial</servlet-name>
         <servlet-class>Filtro.GetMaterial</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Material</servlet-name>
+        <servlet-class>Filtro.Material</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CambiarEstado</servlet-name>
+        <servlet-class>Servlets.CambiarEstado</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IniciarSesion</servlet-name>
         <url-pattern>/IniciarSesion</url-pattern>
@@ -95,6 +103,14 @@
     <servlet-mapping>
         <servlet-name>GetMaterial</servlet-name>
         <url-pattern>/GetMaterial</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Material</servlet-name>
+        <url-pattern>/Material</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CambiarEstado</servlet-name>
+        <url-pattern>/CambiarEstado</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
