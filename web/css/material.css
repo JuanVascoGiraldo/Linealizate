@@ -67,6 +67,10 @@
 }
 
 .video{
-    margin-left: 30%;
-    margin-right: 30%;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.video2{
+    border: 1px solid black;
 }

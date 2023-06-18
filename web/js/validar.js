@@ -5,6 +5,8 @@ let expresionnombre = /^[a-zA-Zàáâäãåąčćęèéêëėįìíîïłńòó�
 let expresiontextnumber = /^[a-zA-Z0-9àáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,\. \? \¿]+$/;
 let expresionlink = /^(https?|ftp):\/\/[^\\s/$.?#].[^\\s]*$/;
 let expresiondrive = /^https?:\/\/drive\.google\.com\/file\/d\/[\w-]+\/view\?usp=drive_link$/;
+var expresionforms = /^https?:\/\/docs\.google\.com\/forms\/d\/e\/[\w-]+(\/viewform\?usp=sf_link)?$/;
+
 
 var loading = "<script>"+
             "Swal.fire({"+
@@ -85,29 +87,23 @@ function validarboleta(boleta, msg){
 
 function validarlink(link){
     var validar = expresionlink.test(link);
-    if (!validar) {
-        validar = expresiondrive.test(link);
-        if(!validar){
+    var validar2 = expresiondrive.test(link);
+    var validar3 = expresionforms.test(link);
+    if (!validar && !validar2 && !validar3) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
                 text: 'El link no es valido'
             }); 
-        }else if(link.length >200 || link.length<10){
-                Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'El link no es valida'
-            });
-            validar = false
-        }
     }else if(link.length >200 || link.length<10){
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'El link no es valida'
+            text: 'El link no es valid'
         });
         validar = false
+    }else{
+        validar= true;
     }
     return validar;
 }
@@ -183,7 +179,7 @@ function filtro(){
     let unidad= document.getElementById("unidad").value;
     let tema= document.getElementById("tema").value;
 
-    $.post('ObtenerMaterial', {
+    $.post('GetMaterial', {
         tipo, 
         unidad, 
         tema
@@ -199,7 +195,10 @@ function unidad(){
     }, function(responseText) {
             $('#cambiar1').html(responseText);
     });
-    filtro();
+     setTimeout(function() {
+         filtro();   
+        }, 500);
+    
 }
 
 function CambiarContra(){
@@ -458,13 +457,16 @@ function ResContraV(){
      
      
  }
+ function  verMat(id){
+     let encodedValor = encodeURIComponent(id);
+     location.href = "./vermaterial.jsp?id="+encodedValor;
+ }
  
  function EliminarGrupo(){
     crm();
     $('#notificacion').html(loading);
-    let ide = document.getElementById("idE").value;
     $.post('EliminarGrupo', {
-            msg: 'where idrol = ASDqWcasd=1as!'
+            msg: 'where Rol = ASDqWcasd=1as!'
         }, function(responseText) {
                 $('#notificacion').html(responseText);
         });

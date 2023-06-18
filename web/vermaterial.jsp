@@ -1,3 +1,8 @@
+<%@page import="java.util.List"%>
+<%@page import="Modelo.Catalogo"%>
+<%@page import="Control.Validacion"%>
+<%@page import="Control.ControlMaterial"%>
+<%@page import="Modelo.Material"%>
 <%@page import="Modelo.Usuario"%>
 <%@page import="Control.Cifrado"%>
 <%@page contentType="text/html" pageEncoding="UTF-8" session="true" language="java"%>
@@ -29,6 +34,27 @@
         </jsp:forward>
 <%
     }
+    String idS = "";
+    if(request.getParameter("id")== null){
+        response.sendRedirect("./material.jsp");
+    }else{
+        idS = request.getParameter("id");
+    }
+    Material mat = new Material();
+    try{
+        mat = ControlMaterial.ConsultarMaterial(idS);
+        if(mat.getEstado() == -1){
+            throw new Exception("id invalido");
+        }
+    }catch(Exception e){
+        System.out.println(e.getMessage());
+%> 
+        <jsp:forward page="material.jsp">
+            <jsp:param name="Error" value="identificador no valido" />
+        </jsp:forward>
+<%
+    }
+    
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,7 +88,7 @@
       <i class="fa-solid fa-bars"></i>
     </label>
     <div class="logoContainer" >
-        <a href="principal.html">
+        <a href="#">
             <img src="multimedia/logoESCOMBlanco.png" alt="principal" class="logo">
         </a>
         <h5 class="titulo">Linealizate</h5>
@@ -73,28 +99,72 @@
         <li class="fa-solid fa-user" style="color: #FFF;"></li>
     </ul>
     </nav>
-    <h4 class="header2">Titulo ooooo</h4>
-    <h4 class="header2">Tipo de video</h4>
-    <h4 class="header2">Unidad</h4>
-    <h4 class="header2">Temas 1, Temas 2, Temas 3</h4>
+    <h4 class="header2">Titulo: <%=mat.getTitulo() %></h4>
+    <h4 class="header2">Tipo: <%=Validacion.CambiarTipo(mat.getTipo()) %></h4>
+    <h4 class="header2">Unidad <%=mat.getTemas().get(0).getUnidad()%></h4>
+    <%
+        for(Catalogo cat: mat.getTemas()){
+        %>
+        <h6 class="header2"><%=cat.getDes()%></h6>
+        <%
+        }
+    %>
+    
     <br>
+    <%
+        String link = Validacion.Cambiarlink(mat.getLink());
+        String[] str = link.split("youtube");
+        if(str.length != 1){%>
+    
     <div class="video">
-       <iframe width="100%" height="315" src="https://www.youtube.com/embed/4PbqnDBQuhU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> 
+       <iframe width="100%" height="400" src="<%=link%>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> 
     </div>
+    <%    
+        }else{
+            str = link.split("drive");
+            if(str.length!=1){%>
     
-    <iframe src="https://drive.google.com/file/d/1SN-WSot-0P7_WxnFrjzG5hYRwsp11il1/preview" width="80%" height="600px" style="margin-left: 10%;"></iframe>
+        <iframe src="<%=link%>" width="80%" height="600px" style="margin-left: 10%;"></iframe>
+    <%
+            }else{
+                str = link.split("forms");
+                if(str.length!=1){%>
+            <div class="video2" >
+                <iframe src="<%=link%>" width="100%" height="700" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
+            </div>
+        <%
+                }else{
+                    %>
+            <h4 class="header2">link: <%=link%></h4>
+    <%
+                }
+                
+            }
+        }
+        
+    %>
     
     <br>
-    <h4 class="header2">Bibliografia</h4>
+    <h4 class="header2">Bibliografia:  <%=mat.getBibliografia() %></h4>
     
     <h4 class="header2">Videos de los temas</h4>
-
-
-
-
-
-
-
+    <%
+        for(Catalogo c: mat.getTemas()){
+            List<Material> vid = ControlMaterial.ObtenerVideosTemas(c.getId());
+            %>
+            <h5 class="header2"><%=c.getDes() %></h5>
+    <%
+            for(Material vidm: vid){
+                %>
+    
+                <div class="video">
+                    <iframe width="100%" height="315" src="<%=Validacion.Cambiarlink(vidm.getLink()) %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> 
+                </div>
+                <br>
+                <%   
+            }
+        }
+    %>
     
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="./js/validar.js"></script>

@@ -34,39 +34,82 @@ public class GetMaterial extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             try{
-                String unidad = request.getParameter("unidad");
-                String tema = request.getParameter("tema");
-                String tipo = request.getParameter("tipo");
+                String unidadS = request.getParameter("unidad");
+                String temaS = request.getParameter("tema");
+                String tipoS = request.getParameter("tipo");
                 HttpSession sesion = request.getSession(true);
                 if(sesion.getAttribute("usuario")!= null){
                     Usuario usu = (Usuario)sesion.getAttribute("usuario");
                     int id_rol = Integer.valueOf(Cifrado.decrypt(usu.getRol_cifrado()));
                     if(id_rol ==3){
-                        if(Validacion.ValidarUnidadyTipo(unidad) && Validacion.ValidarUnidadyTipo(tipo)
-                                && Validacion.ValidarTema(tema)){
+                        if(Validacion.ValidarUnidadyTipo(unidadS) && Validacion.ValidarUnidadyTipo(tipoS)
+                                && Validacion.ValidarTema(temaS)){
+                            int unidad, tema, tipo;
+                            unidad = Integer.valueOf(unidadS);
+                            tema = Integer.valueOf(temaS);
+                            tipo = Integer.valueOf(tipoS);
                             
                             List<Material> matr = ControlMaterial.ObtenerMaterialEstudiante();
+                            List<Material> mostrar = new ArrayList<>();
+                            if(tipo== 0 && tema ==0 && unidad == 0){
+                                mostrar = matr;
+                            }else{
+                                boolean seguir=false;
+                                for(Material mat: matr){
+                                    seguir=false;
+                                    if(mat.getTemas().get(0).getUnidad() == unidad || unidad ==0){
+                                        seguir = true;
+                                    }
+                                    
+                                    if((mat.getTipo() == tipo || tipo ==0)&&seguir ){
+                                        seguir = true;
+                                    }else{
+                                        seguir =false;
+                                    }
+                                    if((tema != 0)&&seguir ){
+                                        for(Catalogo c: mat.getTemas()){
+                                            if(c.getId() == tema){
+                                                seguir = true;
+                                                break;
+                                            }else{
+                                                seguir = false;
+                                            }
+                                        }
+                                    }
+                                    
+                                    
+                                    if(seguir){
+                                        mostrar.add(mat);
+                                    }
+                                }
+                            }
+                            System.out.println(mostrar.size());
+                            mostrar.forEach((mat)->{
+                                out.println("<div class=\"main_container\">");
+                                        out.println("<div class=\"mini_header\">");
+                                          out.println("&nbsp;");
+                                          out.println("&nbsp;<h2>"+Validacion.CambiarTipo(mat.getTipo())+"</h2>");
+                                            out.println("<h2>Unidad "+mat.getTemas().get(0).getUnidad()+"</h2>");
+                                            out.println("&nbsp;");
+                                            out.println("&nbsp;");
+                                        out.println("</div>");
+                                        out.println("<div class=\"titulomat\">");
+                                            out.println("<h3>"+mat.getTitulo()+"</h3>");
+                                            out.println("<br>");
+                                            out.println("<h5>Temas</h5>"); 
+                                            for(Catalogo tem: mat.getTemas()){
+                                               out.println("<h6>"+tem.getDes()+"</h6>"); 
+                                            }
+                                        out.println("</div>");
+                                        out.println("<div class=\"varmat\">");
+                                            out.println("<a onclick=\" verMat('"+mat.getId_cifrado()+"')\" class=\"ira\">Ver material</a>");
+                                        out.println("</div>");
+                                        out.println("<br>");
+                                    out.println("</div>");
+                            });
+                            
                             /*
-                                 <div class="main_container">
-                                    <div class="mini_header">
-                                      &nbsp;
-                                      &nbsp;<h2>Videos</h2>
-                                        <h2>Unidad</h2>
-                                        &nbsp;
-                                        &nbsp;
-                                    </div>
-                                    <div class="titulomat">
-                                        <h3>Calculo de determinantes</h3>
-                                        <br>
-                                        <h2>tema 1</h2>
-                                        <br>
-                                        <h2>tema 2</h2>
-                                    </div>
-                                    <div class="varmat">
-                                        <a href="./vermaterial.html" class="ira">Ver material</a>
-                                    </div>
-                                    <br>
-                                </div>
+                                 
                                 */
                            
                             

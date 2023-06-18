@@ -64,6 +64,10 @@
         <servlet-name>EliminarGrupo</servlet-name>
         <servlet-class>Servlets.EliminarGrupo</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Temaunidad</servlet-name>
+        <servlet-class>Filtro.Temaunidad</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IniciarSesion</servlet-name>
         <url-pattern>/IniciarSesion</url-pattern>
@@ -127,6 +131,10 @@
     <servlet-mapping>
         <servlet-name>EliminarGrupo</servlet-name>
         <url-pattern>/EliminarGrupo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Temaunidad</servlet-name>
+        <url-pattern>/Temaunidad</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

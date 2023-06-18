@@ -23,9 +23,16 @@ public class ControlMaterial {
         ResultSet rs = null;
         try{
             con = ConexionBD.getConnection();
-            String sql = "select * from CTema where id_unidad = ?";
-            ps = con.prepareStatement(sql);
-            ps.setInt(1, unidad);
+            String sql;
+            if(unidad!=0){
+                sql = "select * from CTema where id_unidad = ?";
+                ps = con.prepareStatement(sql);
+                ps.setInt(1, unidad);
+            }else{
+                sql = "select * from CTema";
+                ps = con.prepareStatement(sql);
+            }
+            
             rs = ps.executeQuery();
             while(rs.next()){
                 Catalogo ob = new Catalogo();
@@ -33,7 +40,6 @@ public class ControlMaterial {
                 ob.setId(rs.getInt("id_tema"));
                 temas.add(ob);
             }
-        
         }catch(Exception e){
             System.out.println(e.getMessage());
         }finally{
@@ -551,6 +557,41 @@ public class ControlMaterial {
             }
         }
         return reportes;
+    }
+    
+    public static List<Material> ObtenerVideosTemas(int id){
+        List<Material> material = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try{
+            con = ConexionBD.getConnection();
+           String sql = "select MMaterial.link_publi from ETemaMaterial "
+                    + "INNER JOIN MMaterial ON ETemaMaterial.id_material = MMaterial.id_material  "
+                    + "where ETemaMaterial.id_tema = ? AND MMaterial.id_tipo = 1";
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                Material mat = new Material();
+                mat.setLink(rs.getString("MMaterial.link_publi"));
+                material.add(mat);
+            }
+            
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }finally{
+            try{
+                con.close();
+                ps.close();
+                rs.close();
+            }
+            catch(Exception error){
+                System.out.println("Error a cerrar la conexion");
+                System.out.println(error);
+            }
+        }
+        return material;
     }
     
 }

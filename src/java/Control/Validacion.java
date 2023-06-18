@@ -16,6 +16,7 @@ public class Validacion {
     private static final String ExpBoleta = "^\\d{10}$";
     private static final String ExpLink = "^(https?|ftp):\\/\\/[^\\s/$.?#].[^\\s]*$";
     private static final String Expdrive = "^https?:\\/\\/drive\\.google\\.com\\/file\\/d\\/[\\w-]+\\/view\\?usp=drive_link$";
+    private static final String Expforms = "^https?://docs\\.google\\.com/forms/d/e/[\\w-]+(/viewform\\?usp=sf_link)?$";
     
     
     public static boolean Validarcorreo(String correo){
@@ -78,7 +79,9 @@ public class Validacion {
         Matcher matcher = pattern.matcher(link);
         Pattern pattern2 = Pattern.compile(Expdrive);
         Matcher matcher2 = pattern2.matcher(link);
-        if(matcher.matches() || matcher2.matches()){
+        Pattern pattern3 = Pattern.compile(Expforms);
+        Matcher matcher3 = pattern3.matcher(link);
+        if(matcher.matches() || matcher2.matches() || matcher3.matches()){
            if(link.length() > 200 || link.length() < 10){
                return false;
            }else{
@@ -136,7 +139,18 @@ public class Validacion {
             newlink = link.replace("watch?v=", "embed/");
         
         }else{
-            newlink = link.replace("view?usp=drive_link", "preview");
+            str = link.split("drive");
+            if(str.length!=1){
+                newlink = link.replace("view?usp=drive_link", "preview");
+            }else{
+                str = link.split("forms");
+                if(str.length!=1){
+                    newlink = link.replace("usp=sf_link", "embedded=true");
+                }else{
+                    newlink = link;
+                }
+                
+            }
         }
         return newlink;
     }
@@ -156,7 +170,7 @@ public class Validacion {
         }
         
         if(tipo == 4){
-            return "Exámene";
+            return "Exámen";
         }
         
         return "Lista";

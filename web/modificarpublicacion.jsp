@@ -76,7 +76,7 @@
   <link rel="stylesheet" href="./css/styles.css">
   <link rel="shortcut icon" href="./multimedia/logoESCOMBlanco.png">
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-  <title>Publicar</title>
+  <title>Modificar</title>
 </head>
 
 <body>
