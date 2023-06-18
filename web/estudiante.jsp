@@ -29,6 +29,20 @@
         </jsp:forward>
 <%
     }
+
+    int err, count;
+    try{
+        err = Integer.valueOf(request.getParameter("err"));
+    }catch(Exception e){
+        err = 0;
+    }
+    
+    try{
+        count = Integer.valueOf(request.getParameter("cant"));
+    }catch(Exception e){
+        count = 0;
+    }
+
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -90,22 +104,19 @@
 
   <div class="modal" id="modalEstu">
     <div class="card">
-        <form action="" name="excel">
+        <form action="./excelregistro" method="POST" name="excel" enctype="multipart/form-data">
             <label for="" class="article">Registrar grupo</label><br>
             <hr class="linea">
             <label for="" class="article">Ingresa el archivo excel de los estudiantes</label>
             <br>
             <br>
             <div class="file-select" id="src-file1" >
-              <input type="file" name="src-file1" aria-label="Archivo" accept=".xlsx, .xls" onchange="mostrarNombreArchivo(this)">
+              <input type="file" name="src-file1"  id="src-file1" aria-label="Archivo" accept=".xlsx, .xls" onchange="mostrarNombreArchivo(this)">
             </div>
             <br>
             <br>
             <button type="button" class="submit" id="enviar" onclick="document.excel.submit()">Registrar</button>
         </form>
-        <div id="excel">
-
-        </div>
     </div>
   </div>
 
@@ -176,6 +187,42 @@
         fileLabel.classList.add('mostrar-archivo');
       }
     }
+    
+    <%
+        if(err==1){%>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Hay un error con el archivo revise'
+            });
+            <%
+        
+        }else if(err==2){%>
+            Swal.fire({
+                icon: 'warning',
+                title: 'Precaución',
+                text: 'No se registraron <%=count%> alumnos'
+            });
+            <%
+        }else if(err==3){%>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Hay un error con los registros revise que sea el formato correcto'
+            });
+            <%
+        }else if(err==4){%>
+            Swal.fire({
+                icon: 'success',
+                title: 'Correcto',
+                text: 'Se registraron todos los estudiantes'
+            });
+            <%
+        }
+    
+    %>
+    
+    
   </script>
 </body>
 

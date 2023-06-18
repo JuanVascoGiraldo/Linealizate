@@ -46,11 +46,13 @@ public class Validacion {
         Matcher matcher = pattern.matcher(nombre);
         if(matcher.matches()){
            if(nombre.length() > 60 || nombre.length() == 0){
+                System.out.println("nombre no valido");
                return false;
            }else{
                return true;
            }
         }else{
+            System.out.println("nombre no valido");
             return false;
         }
       }

@@ -68,6 +68,10 @@
         <servlet-name>Temaunidad</servlet-name>
         <servlet-class>Filtro.Temaunidad</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>excelregistro</servlet-name>
+        <servlet-class>Servlets.excelregistro</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IniciarSesion</servlet-name>
         <url-pattern>/IniciarSesion</url-pattern>
@@ -135,6 +139,10 @@
     <servlet-mapping>
         <servlet-name>Temaunidad</servlet-name>
         <url-pattern>/Temaunidad</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>excelregistro</servlet-name>
+        <url-pattern>/excelregistro</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

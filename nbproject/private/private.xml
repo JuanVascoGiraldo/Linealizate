@@ -5,24 +5,20 @@
             <url>web/js/validar.js</url>
             <bookmark id="1">
                 <name/>
-                <line>367</line>
+                <line>385</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Juanv/Desktop/Linealizate/src/java/Servlets/publicar.java</file>
+            <file>file:/C:/Users/Juanv/Desktop/Linealizate/src/java/Servlets/RegistrarEstudiante.java</file>
             <file>file:/C:/Users/Juanv/Desktop/Linealizate/web/estudiante.jsp</file>
             <file>file:/C:/Users/Juanv/Desktop/Linealizate/src/java/Control/Validacion.java</file>
-            <file>file:/C:/Users/Juanv/Desktop/Linealizate/src/java/Control/ControlMaterial.java</file>
-            <file>file:/C:/Users/Juanv/Desktop/Linealizate/src/java/Filtro/GetMaterial.java</file>
-            <file>file:/C:/Users/Juanv/Desktop/Linealizate/web/publicaciones.jsp</file>
-            <file>file:/C:/Users/Juanv/Desktop/Linealizate/src/java/Filtro/Material.java</file>
-            <file>file:/C:/Users/Juanv/Desktop/Linealizate/src/java/Filtro/GetTemas.java</file>
-            <file>file:/C:/Users/Juanv/Desktop/Linealizate/src/java/Servlets/CambiarEstado.java</file>
-            <file>file:/C:/Users/Juanv/Desktop/Linealizate/web/js/validar.js</file>
-            <file>file:/C:/Users/Juanv/Desktop/Linealizate/web/publicar.jsp</file>
+            <file>file:/C:/Users/Juanv/Desktop/Linealizate/web/vermaterial.jsp</file>
+            <file>file:/C:/Users/Juanv/Desktop/Linealizate/src/java/Control/LeerExcel.java</file>
+            <file>file:/C:/Users/Juanv/Desktop/Linealizate/src/java/Servlets/excelregistro.java</file>
+            <file>file:/C:/Users/Juanv/Desktop/Linealizate/src/java/Control/ControlUsuario.java</file>
         </group>
     </open-files>
 </project-private>
