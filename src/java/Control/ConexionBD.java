@@ -2,17 +2,22 @@
 package Control;
 
 import java.sql.*;
+import java.util.Map;
+import java.util.Properties;
 
 public class ConexionBD {
     public static Connection getConnection(){
         String url, userName, password;
-        
-        /*url = "jdbc:mysql://us-cdbr-east-05.cleardb.net/heroku_b3b88c0337e26c9";
-        userName = "b21ae80ea3e3cb";
-        password = "f1eab042";*/
-        url = "jdbc:mysql://localhost:3306/BDalgebra";
+        Map<String, String> env = System.getenv();
+        url = env.get("URL_BD");
+        userName = env.get("usename_BD");
+        password = env.get("password_BD");
+        /*url = "jdbc:mysql://us-cdbr-east-06.cleardb.net/heroku_449a4cf964b0f2c";
+        userName = "b56ecd52f2dffc";
+        password = "6c53858a";*/
+        /*url = "jdbc:mysql://localhost:3306/BDalgebra";
         userName = "root";
-        password = "03042021";
+        password = "03042021";*/
         Connection con = null;
         
         try{

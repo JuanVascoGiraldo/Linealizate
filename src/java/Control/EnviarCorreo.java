@@ -1,6 +1,7 @@
 
 package Control;
 
+import java.util.Map;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -11,9 +12,10 @@ import java.util.Properties;
 
 public class EnviarCorreo {
     
-    private static String Link = "http://localhost:8084/Linealizate/";
+    private static String Link = "https://linealizateapp-2fbd0ba787a6.herokuapp.com/";
     
     public static void sendEmail(String recipient, String subject, String token, int act) {
+        Map<String, String> env = System.getenv();
         // Configuración de propiedades
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
@@ -22,8 +24,8 @@ public class EnviarCorreo {
         properties.put("mail.smtp.port", "587"); // Puerto del servidor SMTP
 
         // Credenciales del remitente
-        String username = "quetzual@gmail.com"; // Reemplaza con tu dirección de correo electrónico
-        String password = "ihdzyyhtekmqnsxi"; // Reemplaza con tu contraseña
+        String username = env.get("USER_MAIL"); // Reemplaza con tu dirección de correo electrónico
+        String password = env.get("PASS_MAIL"); // Reemplaza con tu contraseña
 
         // Creación de la sesión de correo
         Session session = Session.getInstance(properties, new Authenticator() {

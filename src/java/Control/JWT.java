@@ -7,10 +7,11 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import java.util.Date;
+import java.util.Map;
 
 public class JWT {
-    
-    private static String SKJWT = "N}epP}sgLH;*3=?fN5]nW875G7U7;7gm";
+    private static Map<String, String> env = System.getenv();
+    private static String SKJWT = env.get("JWT");
     
     public static String generateJWT(int subject) {
         try{
