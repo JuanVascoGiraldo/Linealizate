@@ -62,7 +62,7 @@
       <i class="fa-solid fa-bars"></i>
     </label>
     <div class="logoContainer" >
-      <a href="principal.html">
+      <a href="#">
         <img src="multimedia/logoESCOMBlanco.png" alt="principal" class="logo">
       </a>
       <h5 class="titulo">Linealizate</h5>

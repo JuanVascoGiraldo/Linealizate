@@ -10,6 +10,7 @@ import java.util.Map;
 public class Cifrado {
     private static Map<String, String> env = System.getenv();
     private static final String clave = env.get("Cifrado");
+//    private static final String clave = "3Q4z59/D}pacm>9bc9Z]E,:Z28(LMw!R";
     private static final byte[] keyvalue = clave.getBytes() ;
     
     private static final String instancia = "AES";

@@ -197,7 +197,7 @@ function unidad(){
     });
      setTimeout(function() {
          filtro();   
-        }, 500);
+        }, 1500);
     
 }
 
@@ -231,7 +231,7 @@ function imputcheck(tipo){
             if(tipo == 2){
                 seleccionarTemas();
             }
-        }, 500);
+        }, 1500);
 }
 
 function Publicar(){

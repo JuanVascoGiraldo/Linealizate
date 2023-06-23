@@ -43,7 +43,7 @@
     Material mat = new Material();
     try{
         mat = ControlMaterial.ConsultarMaterial(idS);
-        if(mat.getEstado() == -1){
+        if(mat.getEstado() == -1 || mat.getTemas().size() == 0){
             throw new Exception("id invalido");
         }
     }catch(Exception e){
@@ -103,6 +103,7 @@
     <h4 class="header2">Tipo: <%=Validacion.CambiarTipo(mat.getTipo()) %></h4>
     <h4 class="header2">Unidad <%=mat.getTemas().get(0).getUnidad()%></h4>
     <%
+        
         for(Catalogo cat: mat.getTemas()){
         %>
         <h6 class="header2"><%=cat.getDes()%></h6>

@@ -12,16 +12,15 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Juanv/Desktop/Linealizate/src/java/Servlets/RegistrarEstudiante.java</file>
-            <file>file:/C:/Users/Juanv/Desktop/Linealizate/web/estudiante.jsp</file>
-            <file>file:/C:/Users/Juanv/Desktop/Linealizate/src/java/Control/EnviarCorreo.java</file>
-            <file>file:/C:/Users/Juanv/Desktop/Linealizate/src/java/Control/Validacion.java</file>
+            <file>file:/C:/Users/Juanv/Desktop/Linealizate/web/cambiarcontra.jsp</file>
+            <file>file:/C:/Users/Juanv/Desktop/Linealizate/web/adminmodificarpublicacion.jsp</file>
+            <file>file:/C:/Users/Juanv/Desktop/Linealizate/web/modificarpublicacion.jsp</file>
+            <file>file:/C:/Users/Juanv/Desktop/Linealizate/web/inicioadmin.jsp</file>
             <file>file:/C:/Users/Juanv/Desktop/Linealizate/src/java/Control/ConexionBD.java</file>
-            <file>file:/C:/Users/Juanv/Desktop/Linealizate/nbproject/build-impl.xml</file>
             <file>file:/C:/Users/Juanv/Desktop/Linealizate/web/vermaterial.jsp</file>
-            <file>file:/C:/Users/Juanv/Desktop/Linealizate/src/java/Control/LeerExcel.java</file>
-            <file>file:/C:/Users/Juanv/Desktop/Linealizate/src/java/Servlets/excelregistro.java</file>
-            <file>file:/C:/Users/Juanv/Desktop/Linealizate/src/java/Control/ControlUsuario.java</file>
+            <file>file:/C:/Users/Juanv/Desktop/Linealizate/web/inicioestudiante.jsp</file>
+            <file>file:/C:/Users/Juanv/Desktop/Linealizate/web/material.jsp</file>
+            <file>file:/C:/Users/Juanv/Desktop/Linealizate/web/js/validar.js</file>
         </group>
     </open-files>
 </project-private>

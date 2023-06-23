@@ -12,20 +12,24 @@ public class ConexionBD {
         url = env.get("URL_BD");
         userName = env.get("usename_BD");
         password = env.get("password_BD");
-        /*url = "jdbc:mysql://us-cdbr-east-06.cleardb.net/heroku_449a4cf964b0f2c";
-        userName = "b56ecd52f2dffc";
-        password = "6c53858a";*/
+//        url = "jdbc:mysql://containers-us-west-161.railway.app:7080/railway";
+//        userName = "root";
+//        password = "ilBsQ6YIYU9RDWLA5zPV";
         /*url = "jdbc:mysql://localhost:3306/BDalgebra";
         userName = "root";
         password = "03042021";*/
+        //url = "jdbc:mysql://root:ilBsQ6YIYU9RDWLA5zPV@containers-us-west-161.railway.app:7080/railway";
         Connection con = null;
         
         try{
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Properties props = new Properties();
+            props.setProperty("user", userName);
+            props.setProperty("password", password);
+            props.setProperty("authenticationPlugin", "caching_sha2_password");
+            con = DriverManager.getConnection(url, props);
+            //con = DriverManager.getConnection(url);
             
-            con = DriverManager.getConnection(url, userName, password);
-            
-            System.out.println("Conexion Exitosa con la BD");
         
         }catch(Exception e){
             System.out.println("Error al conectar la BD");
