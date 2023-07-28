@@ -89,7 +89,7 @@ public class GetMaterial extends HttpServlet {
                                         out.println("<div class=\"mini_header\">");
                                           out.println("&nbsp;");
                                           out.println("&nbsp;<h2>"+Validacion.CambiarTipo(mat.getTipo())+"</h2>");
-                                            out.println("<h2>Unidad "+mat.getTemas().get(0).getUnidad()+"</h2>");
+                                            out.println("<h2>aaaaaUnidad "+mat.getTemas().get(0).getUnidad()+"</h2>");
                                             out.println("&nbsp;");
                                             out.println("&nbsp;");
                                         out.println("</div>");
